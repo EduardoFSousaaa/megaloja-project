@@ -1,39 +1,40 @@
-// --- FUNÇÃO DE NAVEGAÇÃO ENTRE TELAS (SPA) ---
-// --- SISTEMA DE NAVEGAÇÃO DE TELAS (SPA) ---
-// --- SISTEMA DE NAVEGAÇÃO DE TELAS (SPA) ---
-// --- SISTEMA DE NAVEGAÇÃO DE TELAS (SPA) ---
-// --- SISTEMA DE NAVEGAÇÃO DE TELAS (SPA) ---
 function navigateTo(screenId) {
     if (!screenId) return;
 
-    // 1. Esconde todas as seções/telas
     const screens = document.querySelectorAll('.screen-section');
     screens.forEach(screen => {
         screen.classList.remove('active-screen');
     });
 
-    // 2. Mostra a tela que foi solicitada
     const targetScreen = document.getElementById(screenId);
     if (targetScreen) {
         targetScreen.classList.add('active-screen');
     }
-
-    // 3. Se navegando para tela de pedidos, renderiza os pedidos
+    
     if (screenId === 'screen-orders' && typeof renderOrders === 'function') {
         renderOrders();
     }
-
-    // >>> ADICIONE ESTE NOVO BLOCO AQUI EMBAIXO <<<
+    
     if (screenId === 'screen-employee-stock' && typeof renderEmployeeStock === 'function') {
         renderEmployeeStock();
     }
 
-    // --- SEPARAÇÃO DOS MENUS (CLIENTE VS FUNCIONÁRIO) ---
+    if (screenId === 'screen-billing-addresses' && typeof renderBillingAddresses === 'function') {
+        renderBillingAddresses();
+    }
+
+    if (screenId === 'screen-security-change-password' && typeof resetChangePasswordFeedback === 'function') {
+        resetChangePasswordFeedback();
+    }
+
+    if (screenId === 'screen-employee-orders' && typeof renderEmployeeOrders === 'function') {
+        renderEmployeeOrders();
+    }
+
     const appMenu = document.getElementById('app-menu');
     const employeeMenu = document.getElementById('employee-menu');
     const container = document.getElementById('app-container');
     
-    // Lista de telas de login/cadastro (Não mostram nenhum menu)
     const noMenuScreens = [
         'screen-login', 
         'screen-register', 
@@ -43,16 +44,18 @@ function navigateTo(screenId) {
         'screen-employee-login'
     ];
 
-    // Lista de telas exclusivas do funcionário
     const employeeScreens = [
         'screen-employee-orders',
         'screen-employee-stock',
-        'screen-employee-reports'
+        'screen-employee-reports',
+        'screen-employee-order-detail',
+        'screen-employee-order-separation',
+        'screen-employee-order-pickup',
+        'screen-employee-order-status'
     ];
 
-    // Lógica de exibição dos Menus com base na tela atual
     if (noMenuScreens.includes(screenId)) {
-        // Telas de Login: Esconde tudo e centraliza na tela
+        
         if (appMenu) appMenu.style.display = 'none';
         if (employeeMenu) employeeMenu.style.display = 'none';
         document.body.style.justifyContent = 'center';
@@ -61,7 +64,7 @@ function navigateTo(screenId) {
             container.style.width = '100%';
         }
     } else if (employeeScreens.includes(screenId)) {
-        // TELAS DO FUNCIONÁRIO: Mostra apenas o menu do Staff e esconde o do cliente
+        
         if (appMenu) appMenu.style.display = 'none';
         if (employeeMenu) employeeMenu.style.display = 'flex';
         
@@ -74,7 +77,7 @@ function navigateTo(screenId) {
             }
         }
     } else {
-        // TELAS DO CLIENTE: Mostra apenas o menu do cliente e esconde o do funcionário
+        
         if (appMenu) appMenu.style.display = 'flex';
         if (employeeMenu) employeeMenu.style.display = 'none';
         
@@ -88,7 +91,7 @@ function navigateTo(screenId) {
         }
     }
 
-    // --- SINCRONIZAÇÃO AUTOMÁTICA DO MENU ATIVO ---
+    
     try {
         const menuItems = document.querySelectorAll('.menu-item'); 
         menuItems.forEach(item => {
@@ -106,38 +109,32 @@ function navigateTo(screenId) {
     }
 }
 
-// --- GERENCIADOR DE CLIQUES DO MENU ---
+
 function handleMenuClick(element, targetScreenId) {
-    // 1. Remove a classe 'active' de todos os botões do menu
+    
     const menuItems = document.querySelectorAll('.menu-item');
     menuItems.forEach(item => item.classList.remove('active'));
 
-    // 2. Adiciona a classe 'active' apenas no botão clicado
     element.classList.add('active');
 
-    // 3. Executa a navegação para a tela correspondente
     navigateTo(targetScreenId);
 }
 
-// --- CONTROLE DO MODAL DE ERRO ---
 function showModal(message) {
     document.getElementById('error-message').textContent = message;
     document.getElementById('error-modal').classList.add('active-modal');
 }
 
-// --- FECHAR MODAL DE ERRO ---
 function closeModal() {
     document.getElementById('error-modal').classList.remove('active-modal');
 }
 
-// --- VALIDAÇÃO DE CADASTRO ---
 function handleRegister(event) {
     event.preventDefault();
 
     const password = document.getElementById('reg-password').value;
     const confirmPassword = document.getElementById('reg-confirm').value;
-
-    // Se as senhas forem diferentes, mostra o modal personalizado
+    
     if (password !== confirmPassword) {
         showModal("As senhas informadas não são idênticas. Por favor, verifique e digite novamente.");
         return; 
@@ -145,6 +142,320 @@ function handleRegister(event) {
 
     navigateTo('screen-register-success');
 }
+
+function resetChangePasswordFeedback() {
+    const feedback = document.getElementById('cp-password-feedback');
+    const fields = [
+        document.getElementById('cp-new-password'),
+        document.getElementById('cp-confirm-password')
+    ];
+
+    if (feedback) {
+        feedback.textContent = '';
+        feedback.classList.remove('error', 'success');
+    }
+
+    fields.forEach(field => {
+        if (field) field.closest('.input-group')?.classList.remove('input-error', 'input-success');
+    });
+}
+
+function handleChangePassword(event) {
+    event.preventDefault();
+
+    const newPasswordInput = document.getElementById('cp-new-password');
+    const confirmPasswordInput = document.getElementById('cp-confirm-password');
+    const feedback = document.getElementById('cp-password-feedback');
+    const newPassword = newPasswordInput ? newPasswordInput.value.trim() : '';
+    const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value.trim() : '';
+
+    resetChangePasswordFeedback();
+
+    if (newPassword.length < 6 || confirmPassword.length < 6) {
+        if (feedback) {
+            feedback.textContent = 'A nova senha precisa ter pelo menos 6 caracteres.';
+            feedback.classList.add('error');
+        }
+        newPasswordInput?.closest('.input-group')?.classList.add('input-error');
+        confirmPasswordInput?.closest('.input-group')?.classList.add('input-error');
+        showModal('A nova senha precisa ter pelo menos 6 caracteres.');
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        if (feedback) {
+            feedback.textContent = 'As senhas precisam ser idênticas nos dois campos.';
+            feedback.classList.add('error');
+        }
+        newPasswordInput?.closest('.input-group')?.classList.add('input-error');
+        confirmPasswordInput?.closest('.input-group')?.classList.add('input-error');
+        confirmPasswordInput?.focus();
+        showModal('As senhas precisam ser idênticas para alterar a senha de acesso.');
+        return;
+    }
+
+    if (feedback) {
+        feedback.textContent = 'Senha confirmada com sucesso.';
+        feedback.classList.add('success');
+    }
+
+    newPasswordInput?.closest('.input-group')?.classList.add('input-success');
+    confirmPasswordInput?.closest('.input-group')?.classList.add('input-success');
+    event.target.reset();
+    showSuccessModal('Sua senha de acesso foi atualizada com sucesso.', 'Senha alterada!');
+}
+
+window.billingAddresses = window.billingAddresses || [
+    {
+        label: 'Casa',
+        street: 'Rua Principal',
+        number: '123',
+        complement: 'Apto 302',
+        city: 'Porto Alegre',
+        state: 'RS',
+        zip: '90000-000'
+    }
+];
+
+function escapeHTML(value) {
+    return String(value || '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    }[char]));
+}
+
+function getBillingAddressFormValues() {
+    return {
+        label: document.getElementById('billing-address-label')?.value.trim() || '',
+        street: document.getElementById('billing-street')?.value.trim() || '',
+        number: document.getElementById('billing-number')?.value.trim() || '',
+        complement: document.getElementById('billing-complement')?.value.trim() || '',
+        city: document.getElementById('billing-city')?.value.trim() || '',
+        state: (document.getElementById('billing-state')?.value.trim() || '').toUpperCase(),
+        zip: document.getElementById('billing-zip')?.value.trim() || ''
+    };
+}
+
+function setBillingFormMode(isEditing) {
+    const submitBtn = document.getElementById('billing-submit-btn');
+    const cancelBtn = document.getElementById('billing-cancel-btn');
+
+    if (submitBtn) submitBtn.textContent = isEditing ? 'Salvar Alterações' : 'Salvar Endereço';
+    if (cancelBtn) cancelBtn.style.display = isEditing ? 'inline-flex' : 'none';
+}
+
+function renderBillingAddresses() {
+    const list = document.getElementById('billing-addresses-list');
+    if (!list) return;
+
+    list.innerHTML = '';
+    setBillingFormMode(Boolean(document.getElementById('billing-edit-index')?.value));
+
+    if (!window.billingAddresses.length) {
+        list.innerHTML = `
+            <div class="billing-empty-state">
+                <strong>Nenhum endereço salvo</strong>
+                <span>Adicione um endereço para faturamento usando o formulário abaixo.</span>
+            </div>
+        `;
+        return;
+    }
+
+    window.billingAddresses.forEach((address, index) => {
+        const card = document.createElement('article');
+        card.className = 'billing-address-card';
+        card.innerHTML = `
+            <div class="billing-address-main">
+                <div class="billing-address-topline">
+                    <strong>${escapeHTML(address.label)}</strong>
+                    <span>${escapeHTML(address.state)}</span>
+                </div>
+                <p>${escapeHTML(address.street)}, ${escapeHTML(address.number)}${address.complement ? ' - ' + escapeHTML(address.complement) : ''}</p>
+                <p>${escapeHTML(address.city)} - ${escapeHTML(address.state)} | CEP ${escapeHTML(address.zip)}</p>
+            </div>
+            <div class="billing-address-actions">
+                <button type="button" onclick="startEditBillingAddress(${index})">Editar</button>
+                <button type="button" class="danger" onclick="openBillingDeleteModal(${index})">Remover</button>
+            </div>
+        `;
+        list.appendChild(card);
+    });
+}
+
+function handleBillingAddressSubmit(event) {
+    event.preventDefault();
+
+    const form = event.target;
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    const address = getBillingAddressFormValues();
+    const zipNumbers = address.zip.replace(/\D/g, '');
+
+    if (address.state.length !== 2) {
+        showModal('Informe a UF com 2 letras, como RS ou SP.');
+        document.getElementById('billing-state')?.focus();
+        return;
+    }
+
+    if (zipNumbers.length !== 8) {
+        showModal('Informe um CEP válido com 8 números.');
+        document.getElementById('billing-zip')?.focus();
+        return;
+    }
+
+    address.zip = zipNumbers.replace(/(\d{5})(\d{3})/, '$1-$2');
+
+    const editIndexInput = document.getElementById('billing-edit-index');
+    const editIndex = editIndexInput ? editIndexInput.value : '';
+
+    if (editIndex === '') {
+        addBillingAddress(address);
+        showSuccessModal('Endereço de faturamento adicionado com sucesso.', 'Endereço salvo!');
+    } else {
+        saveBillingAddressEdits(Number(editIndex), address);
+        showSuccessModal('Endereço de faturamento atualizado com sucesso.', 'Endereço atualizado!');
+    }
+
+    form.reset();
+    if (editIndexInput) editIndexInput.value = '';
+    setBillingFormMode(false);
+    renderBillingAddresses();
+}
+
+function addBillingAddress(address) {
+    window.billingAddresses.push(address);
+}
+
+function startEditBillingAddress(index) {
+    const address = window.billingAddresses[index];
+    if (!address) return;
+
+    document.getElementById('billing-edit-index').value = index;
+    document.getElementById('billing-address-label').value = address.label;
+    document.getElementById('billing-street').value = address.street;
+    document.getElementById('billing-number').value = address.number;
+    document.getElementById('billing-complement').value = address.complement;
+    document.getElementById('billing-city').value = address.city;
+    document.getElementById('billing-state').value = address.state;
+    document.getElementById('billing-zip').value = address.zip;
+
+    setBillingFormMode(true);
+    document.getElementById('billing-address-label')?.focus();
+}
+
+function saveBillingAddressEdits(index, address) {
+    if (Number.isInteger(index) && window.billingAddresses[index]) {
+        window.billingAddresses[index] = address;
+    }
+}
+
+let pendingBillingDeleteIndex = null;
+
+function openBillingDeleteModal(index) {
+    const address = window.billingAddresses[index];
+    if (!address) return;
+
+    pendingBillingDeleteIndex = index;
+
+    const modal = document.getElementById('billing-delete-modal');
+    const message = document.getElementById('billing-delete-message');
+
+    if (message) {
+        message.textContent = `O endereço "${address.label}" será removido da sua lista de faturamento.`;
+    }
+
+    if (modal) {
+        modal.classList.add('active-modal');
+    }
+}
+
+function closeBillingDeleteModal() {
+    const modal = document.getElementById('billing-delete-modal');
+    pendingBillingDeleteIndex = null;
+
+    if (modal) {
+        modal.classList.remove('active-modal');
+    }
+}
+
+function confirmBillingAddressDelete() {
+    if (pendingBillingDeleteIndex === null) return;
+
+    deleteBillingAddress(pendingBillingDeleteIndex);
+    closeBillingDeleteModal();
+}
+
+function deleteBillingAddress(index) {
+    const address = window.billingAddresses[index];
+    if (!address) return;
+
+    window.billingAddresses.splice(index, 1);
+    cancelBillingEdit();
+    renderBillingAddresses();
+    showSuccessModal('Endereço removido da lista.', 'Endereço removido!');
+}
+
+function cancelBillingEdit() {
+    const form = document.getElementById('billing-address-form');
+    const editIndexInput = document.getElementById('billing-edit-index');
+
+    if (form) form.reset();
+    if (editIndexInput) editIndexInput.value = '';
+    setBillingFormMode(false);
+}
+
+function cancelEditBillingAddress() {
+    cancelBillingEdit();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const stateInput = document.getElementById('billing-state');
+    const zipInput = document.getElementById('billing-zip');
+    const newPasswordInput = document.getElementById('cp-new-password');
+    const confirmPasswordInput = document.getElementById('cp-confirm-password');
+
+    if (stateInput) {
+        stateInput.addEventListener('input', () => {
+            stateInput.value = stateInput.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 2);
+        });
+    }
+
+    if (zipInput) {
+        zipInput.addEventListener('input', () => {
+            const numbers = zipInput.value.replace(/\D/g, '').slice(0, 8);
+            zipInput.value = numbers.length > 5 ? numbers.replace(/(\d{5})(\d{0,3})/, '$1-$2') : numbers;
+        });
+    }
+
+    [newPasswordInput, confirmPasswordInput].forEach(input => {
+        if (!input) return;
+
+        input.addEventListener('input', () => {
+            const feedback = document.getElementById('cp-password-feedback');
+            resetChangePasswordFeedback();
+
+            if (!feedback) return;
+            if (!newPasswordInput.value || !confirmPasswordInput.value) return;
+
+            if (newPasswordInput.value === confirmPasswordInput.value) {
+                feedback.textContent = 'As senhas conferem.';
+                feedback.classList.add('success');
+                newPasswordInput.closest('.input-group')?.classList.add('input-success');
+                confirmPasswordInput.closest('.input-group')?.classList.add('input-success');
+            } else {
+                feedback.textContent = 'As senhas ainda não conferem.';
+                feedback.classList.add('error');
+                confirmPasswordInput.closest('.input-group')?.classList.add('input-error');
+            }
+        });
+    });
+});
 
 // --- MOSTRAR/OCULTAR SENHA ---
 function togglePassword(iconElement) {
@@ -159,72 +470,45 @@ function togglePassword(iconElement) {
     }
 }
 
-// --- VALIDAÇÃO E LOGIN DO CLIENTE ---
 function handleLogin(event) {
     event.preventDefault();
     
-    // RESET DO CARRINHO A CADA LOGIN
     cart = []; 
-    if (typeof renderCart === "function") renderCart(); // Atualiza a tela do carrinho para vazio
+    if (typeof renderCart === "function") renderCart(); 
     
-    // Limpa a memória de estoque ao fazer um novo login
     window.stockCache = {};
-
-    // Direciona o cliente para a tela de seleção de lojas
+    
     navigateTo('screen-stores');
 }
 
-// --- VALIDAÇÃO E LOGIN DO FUNCIONÁRIO ---
-// --- VALIDAÇÃO E LOGIN DO FUNCIONÁRIO ---
 function handleEmployeeLogin(event) {
     event.preventDefault();
     
-    // Limpa o cache antigo usando o escopo seguro para forçar uma nova carga coerente
     window.employeeStockCache = null;
     
     navigateTo('screen-employee-orders');
 }
 
-// --- SISTEMA DE FILTRO/PESQUISA DE LOJAS ---
-// ==================== SISTEMA DE BUSCA DO CLIENTE ====================
-
-/**
- * Filtra as lojas da tela inicial por Nome ou Segmento
- */
-// --- SISTEMA DE FILTRO/PESQUISA DE LOJAS ---
 function handleStoreSearch() {
-    // 1. Pega o input de texto dentro da caixinha de busca
+    
     const searchInput = document.querySelector('.search-box input');
     if (!searchInput) return;
-
-    // Helper para remover acentos e deixar tudo em minúsculo
     const normalize = (text) => text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-    
     const searchTerm = normalize(searchInput.value);
-
-    // 2. Captura todos os cards de lojas da tela
     const storeCards = document.querySelectorAll('.store-card');
 
-    // 3. Varre cada loja aplicando o filtro
     storeCards.forEach(card => {
         const storeName = normalize(card.querySelector('.store-name').textContent);
         const storeAddress = normalize(card.querySelector('.store-address').textContent);
 
-        // Se o termo pesquisado estiver no nome OU no endereço, exibe. Senão, esconde.
         if (storeName.includes(searchTerm) || storeAddress.includes(searchTerm)) {
-            card.style.display = ''; // <--- CORREÇÃO: Usa vazio para herdar o layout correto do CSS e não quebrar o espaçamento!
+            card.style.display = ''; 
         } else {
             card.style.display = 'none'; 
         }
     });
 }
 
-/**
- * Filtra os produtos dentro da loja aberta por Nome ou Categoria
- */
-/**
- * Filtra os produtos da loja selecionada por Nome ou Categoria (Fluxo do Cliente)
- */
 function handleProductSearch() {
     const searchInput = document.querySelector('.product-search-input');
     if (!searchInput) return;
@@ -232,7 +516,6 @@ function handleProductSearch() {
     const normalize = (text) => text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
     const searchTerm = normalize(searchInput.value);
 
-    // Seleciona os cards de produtos do cliente
     const productCards = document.querySelectorAll('.product-card');
     
     productCards.forEach(card => {
@@ -240,54 +523,43 @@ function handleProductSearch() {
         const productName = nameEl ? normalize(nameEl.textContent) : '';
 
         if (productName.includes(searchTerm)) {
-            card.style.display = ''; // Mantém o layout original do CSS (grid/flex) sem bugar!
+            card.style.display = ''; 
         } else {
             card.style.display = 'none';
         }
     });
 }
 
-// BÔNUS: Faz a busca funcionar também ao apertar a tecla "Enter" no teclado
-// --- FORMATAÇÃO AUTOMÁTICA: NOME DO TITULAR EM MAIÚSCULAS ---
 document.addEventListener('DOMContentLoaded', () => {
     const nameInput = document.getElementById('cc-name');
     
     if (nameInput) {
         nameInput.addEventListener('input', (e) => {
-            // Pega o que foi digitado, converte para maiúsculo e devolve ao campo instantaneamente
+            
             e.target.value = e.target.value.toUpperCase();
         });
     }
 });
 
-// --- SISTEMA DE GERENCIAMENTO DE NOTIFICAÇÕES ---
-/**
- * Conta as notificações com a classe 'unread' e updates a bolinha numérica
- */
 function updateNotificationBadge() {
-    // 1. Conta quantos cards ainda têm a classe 'unread'
+    
     const unreadCount = document.querySelectorAll('.notification-card.unread').length;
     const badges = document.querySelectorAll('.notif-badge');
     
-    // 2. Atualiza a bolinha vermelha
     badges.forEach(badge => {
         if (unreadCount > 0) {
-            badge.style.display = 'flex'; // Mostra a bolinha
-            badge.textContent = unreadCount; // Coloca o número
+            badge.style.display = 'flex'; 
+            badge.textContent = unreadCount; 
         } else {
-            badge.style.display = 'none'; // Esconde se zerar
+            badge.style.display = 'none'; 
         }
     });
 }
 
-// Faz a primeira contagem assim que o site é carregado
 document.addEventListener('DOMContentLoaded', () => {
     updateNotificationBadge();
 });
 
-/**
- * Altera o estado de uma notificação específica para lida
- */
 function toggleReadState(notificationId) {
     const card = document.getElementById(notificationId);
     if (!card) return;
@@ -307,12 +579,9 @@ function toggleReadState(notificationId) {
     }
     
     checkEmptyNotifications();
-    updateNotificationBadge(); // <--- MÁGICA: Atualiza o número na hora!
+    updateNotificationBadge(); 
 }
 
-/**
- * Marca todas as notificações ativas como lidas simultaneamente
- */
 function markAllNotificationsAsRead() {
     const unreadCards = document.querySelectorAll('.notification-card.unread');
     
@@ -331,12 +600,9 @@ function markAllNotificationsAsRead() {
     });
     
     checkEmptyNotifications();
-    updateNotificationBadge(); // <--- MÁGICA: Zera o número na hora!
+    updateNotificationBadge(); 
 }
 
-/**
- * Monitora a lista de notificações para exibir o feedback visual caso esteja vazia
- */
 function checkEmptyNotifications() {
     const list = document.getElementById('notifications-list');
     const emptyState = document.getElementById('notifications-empty');
@@ -353,18 +619,10 @@ function checkEmptyNotifications() {
     }
 }
 
-// --- SISTEMA DA TELA DE ESTOQUE (Filtro Inteligente de Variação) ---
+let currentSelectedStore = ""; 
+let cart = []; 
+let orders = []; 
 
-let currentSelectedStore = ""; // Armazena o estado global da loja ativa
-let cart = []; // Armazena os itens do carrinho
-let orders = []; // Armazena o histórico de pedidos confirmados
-
-/**
- * Define a loja ativa, limpa a caixa de texto e renderiza o estoque customizado
- */
-/**
- * Define a loja ativa, limpa a caixa de texto, simula estoques e renderiza
- */
 function selectStore(storeName) {
     currentSelectedStore = storeName;
     
@@ -373,45 +631,26 @@ function selectStore(storeName) {
         titleElement.textContent = `Estoque - Loja ${storeName}`;
     }
     
-    // Reseta o campo de digitação ao trocar de loja
     const searchInput = document.querySelector('#screen-stock .search-box input');
     if (searchInput) searchInput.value = "";
-
-    // --- NOVA LÓGICA: Sorteia os estoques sempre que entra na loja ---
     assignRandomStockLevels();
-
-    // Executa a filtragem inicial pela loja escolhida
     applyProductFilters();
-
     navigateTo('screen-stock');
 }
 
-/**
- * Gera status aleatórios de estoque para cada produto visualmente
- */
-// --- MEMÓRIA DE ESTOQUE GLOBAL ---
 window.stockCache = window.stockCache || {};
 
-/**
- * Gera status de estoque apenas se o produto ainda não tiver um, 
- * mantendo a consistência e separando o estoque por FILIAL.
- */
 function assignRandomStockLevels() {
     const productCards = document.querySelectorAll('.product-card');
 
     productCards.forEach(card => {
         const nameElement = card.querySelector('.product-name');
         if (!nameElement) return;
-        
         const productName = nameElement.textContent.trim();
-
         const cacheKey = currentSelectedStore + "_" + productName;
-
-        // 1. Limpa etiquetas antigas para não empilhar visualmente
         const existingBadge = card.querySelector('.stock-badge');
         if (existingBadge) existingBadge.remove();
 
-        // 2. Verifica se este produto NESTA LOJA já tem um status guardado
         if (!window.stockCache[cacheKey]) {
             const rand = Math.random();
             if (rand < 0.60) {
@@ -423,10 +662,8 @@ function assignRandomStockLevels() {
             }
         }
 
-        // Puxa o status definitivo da memória
         const stockInfo = window.stockCache[cacheKey];
-
-        // 3. Cria a Etiqueta Visual (Badge)
+        
         const badge = document.createElement('span');
         badge.className = 'stock-badge';
         badge.style.display = 'inline-block';
@@ -439,12 +676,10 @@ function assignRandomStockLevels() {
         badge.style.backgroundColor = stockInfo.bg;
         badge.textContent = stockInfo.text;
 
-        // 4. Injeta a etiqueta logo abaixo do nome/preço do produto
         if (nameElement.parentElement) {
             nameElement.parentElement.appendChild(badge);
         }
 
-        // 5. Altera visualmente o botão e cria a trava invisível
         const addBtn = card.querySelector('button');
         if (addBtn) {
             if (stockInfo.state === 'out') {
@@ -462,12 +697,6 @@ function assignRandomStockLevels() {
     });
 }
 
-/**
- * Core unificado: Valida se o produto pertence à loja selecionada E ao termo digitado
- */
-/**
- * Core unificado: Valida se o produto pertence à loja selecionada E ao termo digitado
- */
 function applyProductFilters() {
     const searchInput = document.querySelector('#screen-stock .search-box input');
     
@@ -479,43 +708,32 @@ function applyProductFilters() {
     productCards.forEach(card => {
         const nameElement = card.querySelector('.product-name');
         
-        // PROTEÇÃO: Se houver algum erro de tag no HTML, ignora este card e não trava o app
         if (!nameElement) return; 
-
         const productName = normalize(nameElement.textContent);
-        
-        // Coleta e mapeia as lojas permitidas declaradas no HTML do card
         const allowedStoresAttr = card.getAttribute('data-stores') || "";
         const allowedStores = allowedStoresAttr.split(',').map(s => s.trim());
-
-        // Validações lógicas cruzadas
         const matchesStore = allowedStores.includes(currentSelectedStore);
         const matchesSearch = productName.includes(searchTerm);
 
         if (matchesStore && matchesSearch) {
-            card.style.display = ''; // <--- CORREÇÃO: Mantém o layout nativo do card de produto intacto!
+            card.style.display = ''; 
         } else {
             card.style.display = 'none';
         }
     });
 }
 
-// --- SISTEMA INTERATIVO DE CARRINHO E MODAL ---
-// --- SISTEMA INTERATIVO DE CARRINHO E MODAL ---
 function addToOrder(productName) {
     let productPriceText = "R$ 0,00";
     let productNumericPrice = 0;
-    let isOutOfStock = false; // Variável de controle do estoque
+    let isOutOfStock = false;
 
     const normalizeText = (text) => text.toLowerCase().replace(/['"”'´`]/g, '').trim();
-
     const cards = document.querySelectorAll('.product-card');
+
     for (let card of cards) {
         const nameElement = card.querySelector('.product-name');
-        
         if (nameElement && normalizeText(nameElement.textContent) === normalizeText(productName)) {
-            
-            // --- NOVA BARREIRA: Verifica se o produto foi sorteado como Indisponível ---
             if (card.getAttribute('data-stock') === 'out') {
                 isOutOfStock = true;
                 break;
@@ -524,43 +742,69 @@ function addToOrder(productName) {
             const priceElement = card.querySelector('.product-price');
             if (priceElement) {
                 productPriceText = priceElement.textContent.trim();
-                let numString = productPriceText.replace('R$', '').trim().replace(/\./g, '').replace(',', '.');
+                let numString = productPriceText
+                    .replace('R$', '')
+                    .trim()
+                    .replace(/\./g, '')
+                    .replace(',', '.');
                 productNumericPrice = parseFloat(numString);
             }
-            break; 
+            break;
         }
     }
 
-    // Se o produto acabou, exibe um aviso e INTERROMPE a função
     if (isOutOfStock) {
         if (typeof showModal === "function") {
             showModal(`Puxa! O produto "${productName}" está Indisponível no momento nesta filial.`);
         } else {
             alert(`Puxa! O produto "${productName}" está Indisponível no momento nesta filial.`);
         }
-        return; 
+        return;
     }
 
-    // Adiciona o produto ao array do carrinho normalmente se tiver estoque
+    // FIX do bug: se já existir item (mesmo nome + mesma loja) no carrinho,
+    // aumentar a quantidade em vez de criar uma nova linha repetida.
+    const existingIndex = (Array.isArray(cart) ? cart : []).findIndex(
+        (it) => it && it.name === productName && it.store === currentSelectedStore
+    );
+
+    if (existingIndex !== -1) {
+        const existing = cart[existingIndex];
+        existing.quantity = (existing.quantity || 1) + 1;
+        // Mantém priceText/priceValue do item existente, mas normaliza se estiver faltando
+        if (typeof existing.priceValue !== 'number' || Number.isNaN(existing.priceValue)) {
+            existing.priceValue = productNumericPrice;
+        }
+        if (!existing.priceText) {
+            existing.priceText = productPriceText;
+        }
+
+        showSuccessModal(`Quantidade de "${productName}" atualizada no seu pedido!`);
+        renderCart();
+        return;
+    }
+
     cart.push({
         name: productName,
         store: currentSelectedStore,
         priceText: productPriceText,
-        priceValue: productNumericPrice
+        priceValue: productNumericPrice,
+        quantity: 1
     });
-    
+
     showSuccessModal(`"${productName}" foi adicionado ao seu pedido com sucesso!`);
-    
     renderCart();
 }
 
 // Controladores do Pop-up de Sucesso Blindados
-function showSuccessModal(message) {
+function showSuccessModal(message, title = 'Produto Adicionado!') {
     const modal = document.getElementById('success-modal');
     const msgEl = document.getElementById('success-message');
+    const titleEl = document.getElementById('success-title');
     
     // Proteção: Se o HTML do modal existir, ele abre. Se não, exibe o alerta padrão para não travar.
     if (modal && msgEl) {
+        if (titleEl) titleEl.textContent = title;
         msgEl.textContent = message;
         modal.classList.add('active-modal');
     } else {
@@ -581,55 +825,139 @@ function renderCart() {
     const emptyMessage = document.getElementById('cart-empty-message');
     const totalContainer = document.getElementById('cart-total-container');
     const totalValueEl = document.getElementById('cart-total-value');
-    
+
     if (!listContainer || !emptyMessage) return;
-    
-    listContainer.innerHTML = ''; 
-    
+
+    // Garante que o array exista
+    cart = Array.isArray(cart) ? cart : [];
+
+    listContainer.innerHTML = '';
+
+    // Garante consistência do estado antes de renderizar
+    cart.forEach(item => {
+        if (typeof item.quantity !== 'number' || item.quantity < 1) item.quantity = 1;
+        if (typeof item.checked !== 'boolean') item.checked = false;
+
+        // Se priceValue vier como string/NaN, normaliza
+        const pv = item.priceValue;
+        if (typeof pv !== 'number' || Number.isNaN(pv)) {
+            const fallback = typeof item.priceText === 'string'
+                ? item.priceText.replace('R$', '').trim().replace(/\./g, '').replace(',', '.')
+                : 0;
+            item.priceValue = parseFloat(fallback) || 0;
+        }
+    });
+
     if (cart.length === 0) {
         emptyMessage.style.display = 'block';
-        if (totalContainer) totalContainer.style.display = 'none'; // Esconde o total se vazio
+        if (totalContainer) totalContainer.style.display = 'none';
     } else {
         emptyMessage.style.display = 'none';
-        if (totalContainer) totalContainer.style.display = 'flex'; // Mostra a barra de total
-        
-        let totalAmount = 0; // Variável para somar os preços
+        if (totalContainer) totalContainer.style.display = 'flex';
 
-        // Desenha cada item com o preço embutido
+        let totalAmount = 0;
+
+        // render lista
+        listContainer.innerHTML = '';
         cart.forEach((item, index) => {
-            totalAmount += item.priceValue; // Soma o valor do item atual ao total
-            
+            const subtotal = (item.priceValue || 0) * (item.quantity || 1);
+            totalAmount += subtotal;
+
+            // formatação consistente (evita erro caso formatMoney não exista)
+            const formattedSubtotal = (typeof formatMoney === 'function')
+                ? formatMoney(subtotal)
+                : subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
             listContainer.innerHTML += `
-                <div style="background: #1F2937; padding: 15px; border-radius: 8px; border: 1px solid #374151; display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <h3 style="color: #F9FAFB; margin: 0 0 5px 0; font-size: 16px;">${item.name}</h3>
-                        <p style="color: #818CF8; margin: 0 0 6px 0; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                            Retirada: Loja ${item.store}
-                        </p>
-                        <p style="color: #10B981; margin: 0; font-weight: bold; font-size: 15px;">${item.priceText}</p>
+                <div style="background: #1F2937; padding: 15px; border-radius: 8px; border: 1px solid #374151; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+                    <div style="display:flex; align-items:center; gap:12px; min-width: 0;">
+                        <input type="checkbox"
+                               class="cart-item-checkbox"
+                               data-cart-index="${index}"
+                               style="width: 20px; height: 20px; accent-color: #6366F1; cursor: pointer;"
+                               ${item.checked ? 'checked' : ''}
+                               onchange="toggleCartItemChecked(${index}, this.checked)" />
+                        <div style="min-width: 0;">
+                            <h3 style="color: #F9FAFB; margin: 0 0 5px 0; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</h3>
+                            <p style="color: #818CF8; margin: 0 0 6px 0; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                Retirada: Loja ${item.store}
+                            </p>
+                            <p style="color: #10B981; margin: 0; font-weight: bold; font-size: 15px;">
+                                ${formattedSubtotal}
+                            </p>
+                            <p style="color: #9CA3AF; margin: 6px 0 0 0; font-size: 12.5px;">
+                                ${item.quantity}x de ${item.priceText}
+                            </p>
+                        </div>
                     </div>
-                    <button class="remove-item-btn" onclick="removeFromCart(${index})">Remover</button>
+
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <button type="button"
+                                    class="qty-btn"
+                                    onclick="decreaseCartQuantity(${index})"
+                                    style="width: 38px; height: 38px; border-radius: 10px; border: 1px solid #374151; background: #111827; color: #F3F4F6; font-size: 18px; cursor: pointer;">
+                                −
+                            </button>
+
+                            <span style="min-width: 34px; text-align:center; color:#F9FAFB; font-weight:700;">${item.quantity}</span>
+
+                            <button type="button"
+                                    class="qty-btn"
+                                    onclick="increaseCartQuantity(${index})"
+                                    style="width: 38px; height: 38px; border-radius: 10px; border: 1px solid #374151; background: #111827; color: #F3F4F6; font-size: 18px; cursor: pointer;">
+                                +
+                            </button>
+                        </div>
+
+                        <button class="remove-item-btn" onclick="removeFromCart(${index})"
+                                style="background: transparent; border: 1px solid #EF4444; color: #EF4444; height: 40px; padding: 0 14px; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                            Remover
+                        </button>
+                    </div>
                 </div>
             `;
         });
-        
-        // Formata a soma matemática para a Moeda (R$)
+
         if (totalValueEl) {
             totalValueEl.textContent = totalAmount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
     }
 
-    // --- LÓGICA DA BOLINHA DO CARRINHO (BADGE) ---
     const badges = document.querySelectorAll('.cart-badge');
     badges.forEach(badge => {
         if (cart.length > 0) {
-            badge.style.display = 'flex'; // Mostra a bolinha
-            badge.textContent = cart.length; // Escreve a quantidade de itens
+            badge.style.display = 'flex';
+            badge.textContent = cart.length;
         } else {
-            badge.style.display = 'none'; // Esconde a bolinha se não houver itens
+            badge.style.display = 'none';
         }
     });
+}
+
+function toggleCartItemChecked(cartIndex, isChecked) {
+    if (typeof cartIndex !== 'number' || !cart[cartIndex]) return;
+    cart[cartIndex].checked = Boolean(isChecked);
+}
+
+function increaseCartQuantity(cartIndex) {
+    if (typeof cartIndex !== 'number' || !cart[cartIndex]) return;
+    cart[cartIndex].quantity = (cart[cartIndex].quantity || 1) + 1;
+    renderCart();
+}
+
+function decreaseCartQuantity(cartIndex) {
+    if (typeof cartIndex !== 'number' || !cart[cartIndex]) return;
+
+    const currentQty = cart[cartIndex].quantity || 1;
+    if (currentQty <= 1) {
+        // “−” até 0: remove a linha
+        cart.splice(cartIndex, 1);
+    } else {
+        cart[cartIndex].quantity = currentQty - 1;
+    }
+    renderCart();
 }
 
 function removeFromCart(index) {
@@ -651,22 +979,37 @@ function goToCheckout() {
         return;
     }
 
-    // Limpa seleções de rádio anteriores
+    // Impedir seguir para a compra se o usuário não marcou nenhum item no carrinho.
+    const anyChecked = cart.some(item => item && item.checked === true);
+    if (!anyChecked) {
+        if (typeof showModal === "function") {
+            showModal("Você precisa selecionar pelo menos um item no carrinho para realizar o pedido.");
+        } else {
+            alert("Você precisa selecionar pelo menos um item no carrinho para realizar o pedido.");
+        }
+        return;
+    }
+
+    // Guardar somente os itens marcados para usar no checkout e no pedido final.
+    const checkedCartItems = cart.filter(item => item && item.checked === true);
+
+    // Reset UI de pagamento (radios e abas)
     const radioButtons = document.querySelectorAll('input[name="payment_method"]');
     radioButtons.forEach(radio => radio.checked = false);
-    
-    // Limpa as bordas iluminadas anteriores
+
     document.querySelectorAll('.payment-card').forEach(card => {
         card.classList.remove('active-payment-box');
     });
-    
-    // Esconde os detalhes de pagamento até o usuário escolher uma opção
+
     const pixDetails = document.getElementById('pix-details-container');
     const cardDetails = document.getElementById('card-details-container');
     if (pixDetails) pixDetails.style.display = 'none';
     if (cardDetails) cardDetails.style.display = 'none';
 
-    renderCheckoutSummary(cart);
+    // Persistir o conjunto “a comprar” durante esta sessão de checkout
+    window._checkoutSelectedItems = JSON.parse(JSON.stringify(checkedCartItems));
+
+    renderCheckoutSummary(checkedCartItems);
     navigateTo('screen-checkout');
 }
 
@@ -724,13 +1067,6 @@ function renderCheckoutSummary(cartItems) {
     if (typeof updateInstallments === "function") updateInstallments();
 }
 
-/**
- * Renderiza todos os pedidos confirmados na tela de "Meus Pedidos"
- */
-
-/**
- * Renderiza todos os pedidos confirmados na tela de "Meus Pedidos"
- */
 function renderOrders() {
     const ordersList = document.getElementById('orders-list');
     const emptyState = document.getElementById('orders-empty');
@@ -819,6 +1155,7 @@ function renderOrders() {
                         <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
                             <span style="color: #10B981; font-weight: 600;">${item.priceText}</span>
                             ${itemInstallmentHTML}
+                            ${typeof item.quantity !== 'undefined' ? `<span style="color: #9CA3AF; font-size: 12px; font-weight: 500; margin-top: 2px;">Quantidade: ${item.quantity}</span>` : ''}
                         </div>
                     </div>
                 `;
@@ -875,9 +1212,6 @@ function renderOrders() {
     }
 }
 
-/**
- * Ação executada ao clicar em "Confirmar pedido"
- */
 function confirmFinalOrder() {
     const selectedPayment = document.querySelector('input[name="payment_method"]:checked')?.value;
     const observationText = document.querySelector('.checkout-textarea')?.value || '';
@@ -889,16 +1223,28 @@ function confirmFinalOrder() {
         } else {
             alert("Por favor, selecione um método de pagamento antes de finalizar o seu pedido.");
         }
-        return; // Interrompe o envio
+        return;
     }
 
-    // --- BARREIRA DO CARTÃO DE CRÉDITO ---
-    // --- BARREIRA DO CARTÃO DE CRÉDITO ---
+    // Itens “a comprar” vêm do checkout (itens marcados).
+    const checkoutItems = Array.isArray(window._checkoutSelectedItems)
+        ? window._checkoutSelectedItems
+        : [];
+
+    if (!checkoutItems.length) {
+        if (typeof showModal === "function") {
+            showModal("Você precisa selecionar pelo menos um item no carrinho para realizar o pedido.");
+        } else {
+            alert("Você precisa selecionar pelo menos um item no carrinho para realizar o pedido.");
+        }
+        return;
+    }
+
     if (selectedPayment === 'credit_card') {
-        const ccNumber = document.getElementById('cc-number').value.trim();
-        const ccName = document.getElementById('cc-name').value.trim();
-        const ccExpiry = document.getElementById('cc-expiry').value.trim();
-        const ccCvv = document.getElementById('cc-cvv').value.trim();
+        const ccNumber = document.getElementById('cc-number')?.value?.trim() || '';
+        const ccName = document.getElementById('cc-name')?.value?.trim() || '';
+        const ccExpiry = document.getElementById('cc-expiry')?.value?.trim() || '';
+        const ccCvv = document.getElementById('cc-cvv')?.value?.trim() || '';
 
         // Verifica se algum campo está vazio
         if (!ccNumber || !ccName || !ccExpiry || !ccCvv) {
@@ -920,7 +1266,7 @@ function confirmFinalOrder() {
             return;
         }
 
-        // NOVA VALIDAÇÃO: Verifica se o CVV tem pelo menos 3 dígitos
+        // Verifica se o CVV tem pelo menos 3 dígitos
         if (ccCvv.length < 3) {
             if (typeof showModal === "function") {
                 showModal("O código de segurança (CVV) do cartão deve ter pelo menos 3 dígitos.");
@@ -931,17 +1277,29 @@ function confirmFinalOrder() {
         }
     }
 
-    // Calcula o total
+    // Calcula o total SOMENTE com os itens do checkout
     let orderTotal = 0;
-    cart.forEach(item => {
-        orderTotal += item.priceValue;
+    checkoutItems.forEach(item => {
+        const pv = item?.priceValue || 0;
+        const qty = item?.quantity || 1;
+        orderTotal += pv * qty;
     });
 
-    const ccInstallments = document.getElementById('cc-installments') ? document.getElementById('cc-installments').value : 1;
+    const ccInstallmentsEl = document.getElementById('cc-installments');
+    const ccInstallments = ccInstallmentsEl ? ccInstallmentsEl.value : 1;
 
-    // Cria um objeto de pedido com todas as informações
+    // Ajusta e salva pedido SOMENTE com itens “checked”
+    const itemsToSave = checkoutItems.map(item => ({
+        name: item.name,
+        store: item.store,
+        quantity: item.quantity || 1,
+        priceText: item.priceText,
+        priceValue: item.priceValue,
+        checked: item.checked === true
+    }));
+
     const newOrder = {
-        id: `#BR-${Math.floor(Math.random() * 900000) + 100000}`, // ID único aleatório
+        id: `#BR-${Math.floor(Math.random() * 900000) + 100000}`,
         date: new Date().toLocaleString('pt-BR', { 
             day: '2-digit', 
             month: '2-digit', 
@@ -949,42 +1307,54 @@ function confirmFinalOrder() {
             hour: '2-digit',
             minute: '2-digit'
         }),
-        items: JSON.parse(JSON.stringify(cart)), // Cria uma cópia profunda dos itens
+        items: JSON.parse(JSON.stringify(itemsToSave)),
         total: orderTotal,
         paymentMethod: selectedPayment || 'pix',
         installments: selectedPayment === 'credit_card' ? ccInstallments : 1,
         observation: observationText,
-        status: 'Confirmado' // Status inicial do pedido
+        status: 'Confirmado'
     };
 
-    // Armazena o pedido no histórico
     if (typeof orders !== 'undefined') {
         orders.push(newOrder);
     }
 
-    // --- NOVA LÓGICA: SIMULAÇÃO DE SEPARAÇÃO (TEMPO REAL) ---
-    // Descobre o nome da loja baseada no primeiro item do carrinho
     const storeName = newOrder.items.length > 0 ? newOrder.items[0].store : "Matriz";
     const generatedOrderId = newOrder.id;
 
-    // Define um tempo (Ex: 8 segundos) após a compra para disparar a notificação
     setTimeout(() => {
         addOrderNotification(generatedOrderId, storeName);
-    }, 8000); 
-    // --------------------------------------------------------
+    }, 8000);
 
-    // (O resto da função continua normal abaixo: esvazia o carrinho, etc...)
-    cart = [];
+    // Remove SOMENTE os itens comprados (marcados no checkout) do carrinho,
+    // mantendo os não selecionados.
+    const checkoutKeys = new Set(
+        checkoutItems.map(ci => `${ci.store}__${ci.name}`)
+    );
+
+    cart = (Array.isArray(cart) ? cart : []).filter(item => {
+        const key = `${item.store}__${item.name}`;
+        // se está no conjunto do checkout E está marcado no carrinho => remove
+        return !(checkoutKeys.has(key) && item.checked === true);
+    });
+
+    // Limpa o estado do checkout, pois o pedido já foi concluído
+    window._checkoutSelectedItems = [];
+
     if (typeof renderCart === "function") renderCart();
-    
-    // Atualiza badges se existirem no sistema
-    const badges = document.querySelectorAll('.cart-badge');
-    badges.forEach(b => b.style.display = 'none');
 
-    // Renderiza os pedidos na tela de pedidos (background)
+    const badges = document.querySelectorAll('.cart-badge');
+    badges.forEach(b => {
+        if (cart && cart.length > 0) {
+            b.style.display = 'flex';
+            b.textContent = cart.length;
+        } else {
+            b.style.display = 'none';
+        }
+    });
+
     if (typeof renderOrders === "function") renderOrders();
 
-    // Abre o nosso Pop-up de Sucesso (em vez do alert)
     if (typeof showOrderSuccessModal === "function") {
         showOrderSuccessModal(`O pedido ${newOrder.id} foi realizado com sucesso e já está no sistema da loja.`);
     } else {
@@ -1009,8 +1379,15 @@ function closeOrderSuccessModal() {
     if (modal) {
         modal.classList.remove('active-modal');
     }
-    // Ao fechar o pop-up de sucesso, direciona o cliente direto para a tela de Pedidos
-    navigateTo('screen-orders');
+    // Verifica se o modal foi aberto pelo fluxo do funcionário
+    if (window._employeeModalPending) {
+        window._employeeModalPending = false;
+        renderEmployeeOrders();
+        navigateTo('screen-employee-orders');
+    } else {
+        // Fluxo do cliente: vai para a tela de Meus Pedidos
+        navigateTo('screen-orders');
+    }
 }
 
 // --- SISTEMA DE SELEÇÃO DE PAGAMENTO ---
@@ -1058,12 +1435,6 @@ function generatePixCode() {
     }
 }
 
-/**
- * Copia o código Pix para a área de transferência do usuário
- */
-/**
- * Copia o código Pix para a área de transferência do utilizador e exibe o pop-up de sucesso correto
- */
 function copyPixCode() {
     const pixText = document.getElementById('pix-code-text').textContent;
     
@@ -1085,58 +1456,46 @@ function copyPixCode() {
  * Aceita apenas números e formata automaticamente com a barra
  */
 function formatExpiryDate(input) {
-    // Remove tudo que não é número
     let value = input.value.replace(/\D/g, '');
-    
-    // Limita a 4 dígitos
+
     if (value.length > 4) {
         value = value.slice(0, 4);
     }
-    
-    // Validação do Mês (Máximo 12)
+
     if (value.length >= 2) {
         let month = parseInt(value.slice(0, 2), 10);
-        
+
         if (month > 12) {
-            // Se for maior que 12, força o mês a ser 12
             value = '12' + value.slice(2);
         } else if (month === 0) {
-            // Opcional: Se digitarem '00', força a ser '01' pois não existe mês 0
             value = '01' + value.slice(2);
         }
     } else if (value.length === 1 && value !== '0' && value !== '1') {
         value = '0' + value;
     }
-    
-    // --- NOVA LÓGICA: DATA DE VALIDADE MÍNIMA (06/26) ---
+
     if (value.length === 4) {
         let month = parseInt(value.slice(0, 2), 10);
         let year = parseInt(value.slice(2, 4), 10);
 
-        // Se o ano for menor que 26 (ex: 24, 25), força a ser 26
         if (year < 26) {
             year = 26;
         }
-        
-        // Se o ano for 26, o mês não pode ser menor que 06 (Junho)
+
         if (year === 26 && month < 6) {
             month = 6;
         }
 
-        // Converte de volta para texto garantindo os 2 dígitos (ex: "6" vira "06")
         let strMonth = month.toString().padStart(2, '0');
         let strYear = year.toString();
-        
-        // Atualiza o valor formatado e corrigido
+
         value = strMonth + strYear;
     }
-    // ----------------------------------------------------
-    
-    // Formata como MM/AA
+
     if (value.length >= 2) {
         value = value.slice(0, 2) + '/' + value.slice(2, 4);
     }
-    
+
     input.value = value;
 }
 
@@ -1244,7 +1603,7 @@ function generateOrderQRCode(orderId, containerId, btnId) {
     // Usa uma API gratuita super rápida para gerar a imagem do QR Code
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${qrData}`;
 
-    // Constrói a estrutura visual da imagem (com fundo branco para os leitores lerem bem)
+    
     container.innerHTML = `
         <div style="background: #FFFFFF; padding: 10px; border-radius: 8px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
             <img src="${qrUrl}" alt="QR Code do Pedido ${orderId}" style="display: block; width: 180px; height: 180px;">
@@ -1256,43 +1615,24 @@ function generateOrderQRCode(orderId, containerId, btnId) {
         <p style="color: #9CA3AF; font-size: 12px; margin-top: 4px;">Apresente este código na tela do seu dispositivo na loja.</p>
     `;
 
-    // Mostra o container (centralizado com Flexbox)
     container.style.display = 'flex';
 
-    // Esconde o botão original para não gerar duas vezes
     if (btn) {
         btn.style.display = 'none';
     }
 }
 
-// ==================== GERENCIAMENTO DINÂMICO DE ESTOQUE (STAFF) ====================
-
-// Cache de sessão para persistência visual das abas
-// ==================== GERENCIAMENTO DINÂMICO DE ESTOQUE (STAFF) ====================
-
-// Registra a memória de sessão de forma segura e imune a erros de re-declaração por 'let'
 if (typeof window.employeeStockCache === 'undefined') {
     window.employeeStockCache = null;
 }
 
-/**
- * Mapeia os produtos reais e gera o painel baseando-se estritamente na regra de quantidade
- */
-// ==================== GERENCIAMENTO DINÂMICO DE ESTOQUE (STAFF) ====================
 
-// Registra a memória de sessão de forma segura e imune a erros de re-declaração por 'let'
-if (typeof window.employeeStockCache === 'undefined') {
-    window.employeeStockCache = null;
-}
 
-/**
- * Mapeia os produtos reais e gera o painel baseando-se estritamente na regra de quantidade
- */
+
 function renderEmployeeStock() {
     const productListContainer = document.querySelector('.stock-products-list');
     if (!productListContainer) return;
 
-    // === PASSO A: SE NÃO HOUVER CACHE (PRIMEIRO ACESSO DO LOGIN), CARREGA O CATÁLOGO ===
     if (window.employeeStockCache === null) {
         window.employeeStockCache = [];
         const clientProducts = document.querySelectorAll('.product-card');
@@ -1306,23 +1646,20 @@ function renderEmployeeStock() {
             const name = nameEl.textContent.trim();
             const price = priceEl ? priceEl.textContent.trim() : 'R$ 0,00';
             const category = card.getAttribute('data-category') || 'Geral';
-
-            // Evita duplicados na carga do catálogo do cliente
+  
             const exists = window.employeeStockCache.some(p => p.name === name);
             if (!exists) {
                 const rand = Math.random();
                 let qty = 0;
-
-                // Geração equilibrada inicial para teste visual
+      
                 if (rand < 0.12) {
                     qty = 0; 
                 } else if (rand < 0.32) {
-                    qty = Math.floor(Math.random() * 5) + 1; // 1 a 5 unidades
+                    qty = Math.floor(Math.random() * 5) + 1; 
                 } else {
-                    qty = Math.floor(Math.random() * 85) + 6; // 6 ou mais unidades
+                    qty = Math.floor(Math.random() * 85) + 6; 
                 }
-
-                // Automação de Regra de Status
+      
                 let statusText = 'Disponível';
                 let badgeClass = 'badge-in-stock';
 
@@ -1348,8 +1685,7 @@ function renderEmployeeStock() {
         });
     }
 
-    // === PASSO B: LIMPA O CONTAINER E RENDERIZA A LISTAGEM COM BASE NO CACHE SEGURO ===
-    productListContainer.innerHTML = ''; // IMPORTANTE: Limpa antes de renderizar
+    productListContainer.innerHTML = ''; 
     
     let totalItems = window.employeeStockCache.length;
     let baixoEstoqueCount = 0;
@@ -1358,8 +1694,7 @@ function renderEmployeeStock() {
     window.employeeStockCache.forEach(prod => {
         if (prod.qty === 0) esgotadoCount++;
         else if (prod.qty <= 5) baixoEstoqueCount++;
-
-        // A linha agora tem eventos de clique no Nome e no Preço para abrir a edição
+   
         productListContainer.innerHTML += `
             <div class="stock-product-row" style="position: relative; padding-right: 45px;">
                 <div class="prod-main-info" onclick="openEditProductModal('${prod.sku}')" style="cursor: pointer;" title="Clique para editar">
@@ -1385,7 +1720,7 @@ function renderEmployeeStock() {
         `;
     });
 
-    // Atualiza os indicadores superiores
+    
     const kpiValues = document.querySelectorAll('.stock-kpi-card .kpi-value');
     if (kpiValues.length >= 3) {
         kpiValues[0].textContent = totalItems;
@@ -1394,17 +1729,11 @@ function renderEmployeeStock() {
     }
 }
 
-/**
- * Abre o modal de cadastro
- */
 function openAddProductModal() {
     const modal = document.getElementById('stock-add-modal');
     if (modal) modal.style.display = 'flex';
 }
 
-/**
- * Fecha o modal de forma limpa e segura
- */
 function closeAddProductModal() {
     const modal = document.getElementById('stock-add-modal');
     if (modal) {
@@ -1418,17 +1747,13 @@ function closeAddProductModal() {
     }
 }
 
-/**
- * Processa a criação e calcula o status matematicamente sem falhas
- */
 function handleCreateProduct(event) {
-    if (event) event.preventDefault(); // Impede o recarregamento da página
+    if (event) event.preventDefault(); 
 
     const nameEl = document.getElementById('stock-new-name');
     const priceEl = document.getElementById('stock-new-price');
     const qtyEl = document.getElementById('stock-new-qty');
 
-    // Validação defensiva: se algum campo sumiu do HTML, avisa o desenvolvedor no console
     if (!nameEl || !priceEl || !qtyEl) {
         console.error("Erro Crítico: Campos do formulário não foram encontrados no HTML.");
         return;
@@ -1442,7 +1767,7 @@ function handleCreateProduct(event) {
     if (isNaN(qty) || qty < 0) qty = 0;
     if (!price.toUpperCase().includes('R$')) price = `R$ ${price}`;
 
-    // === PROCESSAMENTO AUTOMÁTICO DO STATUS ===
+    
     let statusText = 'Disponível';
     let badgeClass = 'badge-in-stock';
 
@@ -1453,15 +1778,13 @@ function handleCreateProduct(event) {
         statusText = 'Estoque Baixo';
         badgeClass = 'badge-low-stock';
     }
-
-    // Inicialização forçada se necessário
+    
     if (window.employeeStockCache === null) {
         window.employeeStockCache = [];
     }
 
     const sku = `SKU-${2000 + (window.employeeStockCache.length + 1)}`;
-
-    // Injeta o novo produto no topo da memória da sessão
+    
     window.employeeStockCache.unshift({
         sku,
         name,
@@ -1471,15 +1794,11 @@ function handleCreateProduct(event) {
         badgeClass,
         statusText
     });
-
-    // Fecha a janela e atualiza o ecrã instantaneamente
+    
     closeAddProductModal();
     renderEmployeeStock();
 }
 
-/**
- * Filtro de pesquisa operacional por SKU, Nome ou Categoria
- */
 function handleEmployeeStockSearch() {
     const searchInput = document.querySelector('.stock-search-input');
     if (!searchInput) return;
@@ -1501,61 +1820,35 @@ function handleEmployeeStockSearch() {
     });
 }
 
-/**
- * Remove um item específico do estoque na sessão atual
- */
 function removeEmployeeStockItem(sku) {
     if (!window.employeeStockCache) return;
-    
-    // Filtra o array, mantendo apenas os produtos que NÃO têm o SKU clicado
     window.employeeStockCache = window.employeeStockCache.filter(item => item.sku !== sku);
-    
-    // Atualiza a tela imediatamente (isso fará o produto sumir e os KPIs do topo serem recalculados)
     renderEmployeeStock();
 }
 
-// ==================== LÓGICA DE EDIÇÃO DE PRODUTO ====================
-
-// Variável para lembrar qual produto estamos editando no momento
 let currentEditSku = null;
 
-/**
- * Abre o modal e preenche os campos com os dados atuais do produto
- */
 function openEditProductModal(sku) {
     if (!window.employeeStockCache) return;
-    
-    // Procura o produto exato na memória
     const product = window.employeeStockCache.find(p => p.sku === sku);
     if (!product) return;
-
-    // Guarda o SKU para sabermos quem atualizar depois
     currentEditSku = sku;
-    
-    // Preenche os campos do modal com os dados existentes
     document.getElementById('stock-edit-name').value = product.name;
     document.getElementById('stock-edit-price').value = product.price;
-
     const modal = document.getElementById('stock-edit-modal');
     if (modal) modal.style.display = 'flex';
 }
 
-/**
- * Fecha o modal de edição e limpa a memória temporária
- */
 function closeEditProductModal() {
     const modal = document.getElementById('stock-edit-modal');
     if (modal) {
         modal.style.display = 'none';
         document.getElementById('stock-edit-name').value = '';
         document.getElementById('stock-edit-price').value = '';
-        currentEditSku = null; // Zera a referência
+        currentEditSku = null; 
     }
 }
 
-/**
- * Guarda as alterações feitas no produto e atualiza a tela
- */
 function handleEditProduct(event) {
     if (event) event.preventDefault();
 
@@ -1571,17 +1864,345 @@ function handleEditProduct(event) {
 
     if (!newName || !newPrice) return;
     
-    // Garante que o R$ esteja lá, por precaução
+    
     if (!newPrice.toUpperCase().includes('R$')) newPrice = `R$ ${newPrice}`;
 
-    // Acha a posição do produto na lista global e atualiza os dados
     const productIndex = window.employeeStockCache.findIndex(p => p.sku === currentEditSku);
     if (productIndex !== -1) {
         window.employeeStockCache[productIndex].name = newName;
         window.employeeStockCache[productIndex].price = newPrice;
     }
 
-    // Fecha a janela e atualiza o ecrã instantaneamente
     closeEditProductModal();
     renderEmployeeStock();
+}
+
+const employeeOrders = [
+    { id: 'PED-9087', client: 'João Silva', date: 'Hoje, 14:30', status: 'Pendente', total: 1250.90, items: [
+        { name: 'Monitor Gamer 24" LED FHD', qtd: 1, price: 899.90 },
+        { name: 'Teclado Mecânico RGB', qtd: 1, price: 279.00 }
+    ], paymentMethod: 'PIX', store: 'Centro' },
+    { id: 'PED-9086', client: 'Maria Oliveira', date: 'Hoje, 14:15', status: 'Em Separação', total: 2849.00, items: [
+        { name: 'Smartphone 128GB Ultra', qtd: 1, price: 2499.00 },
+        { name: 'Carregador Rápido GaN 65W', qtd: 1, price: 129.00 }
+    ], paymentMethod: 'Cartão de Crédito', installments: 3, store: 'Shopping Mall' },
+    { id: 'PED-9085', client: 'Carlos Santos', date: 'Hoje, 13:50', status: 'Pronto para Retirada', total: 549.90, items: [
+        { name: 'Fone Bluetooth Noise Cancelling', qtd: 1, price: 349.90 },
+        { name: 'Cafeteira Elétrica Inox', qtd: 1, price: 189.00 }
+    ], paymentMethod: 'PIX', store: 'Zona Norte' },
+    { id: 'PED-9084', client: 'Ana Beatriz Ribeiro', date: 'Hoje, 13:10', status: 'Em Separação', total: 4498.00, items: [
+        { name: 'Notebook Intel i5 16GB RAM', qtd: 1, price: 4199.00 },
+        { name: 'Mouse Pad Gamer', qtd: 1, price: 0 }
+    ], paymentMethod: 'Cartão de Crédito', installments: 6, store: 'Centro' },
+    { id: 'PED-9083', client: 'Marcos Souza Filhos', date: 'Ontem, 18:45', status: 'Finalizado', total: 2378.00, items: [
+        { name: 'Console PlayStation 5 Slim', qtd: 1, price: 3799.00 }
+    ], paymentMethod: 'PIX', store: 'Distrito Boémio' },
+    { id: 'PED-9082', client: 'Juliana Lima Ramos', date: 'Ontem, 17:20', status: 'Cancelado', total: 0, items: [
+        { name: 'Smart TV 4K 50" Crystal', qtd: 1, price: 2199.00 }
+    ], paymentMethod: 'PIX', store: 'Centro' }
+];
+
+let currentSelectedOrderId = null;
+let currentSelectedOrderData = null;
+
+function renderEmployeeOrders() {
+    const list = document.getElementById('emp-orders-list');
+    if (!list) return;
+
+    list.innerHTML = '';
+
+    employeeOrders.forEach(order => {
+        const statusClass = getStatusBadgeClass(order.status);
+        const card = document.createElement('div');
+        card.className = 'emp-order-card';
+        card.onclick = function() { openEmployeeOrderDetail(order.id); };
+        card.innerHTML = `
+            <div class="emp-order-info">
+                <h3>#${order.id}</h3>
+                <p>Cliente: ${order.client}</p>
+                <span class="emp-order-time">${order.date}</span>
+            </div>
+            <div class="emp-order-status-area">
+                <span class="emp-badge ${statusClass}">${order.status}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+        `;
+        list.appendChild(card);
+    });
+}
+
+function getStatusBadgeClass(status) {
+    switch(status) {
+        case 'Pendente': return 'emp-badge-pending';
+        case 'Em Separação': return 'emp-badge-preparing';
+        case 'Pronto para Retirada': return 'emp-badge-ready';
+        case 'Finalizado': return 'emp-badge-delivered';
+        case 'Cancelado': return 'emp-badge-cancelled';
+        default: return 'emp-badge-pending';
+    }
+}
+
+function openEmployeeOrderDetail(orderId) {
+    const order = employeeOrders.find(o => o.id === orderId);
+    if (!order) return;
+
+    currentSelectedOrderId = orderId;
+    currentSelectedOrderData = order;
+    
+    document.getElementById('detail-header-id').innerText = '#' + order.id;
+    
+    const statusBar = document.getElementById('detail-status-bar');
+    const statusClass = getStatusBadgeClass(order.status);
+    statusBar.innerHTML = `<span class="emp-badge ${statusClass}" style="font-size: 14px; padding: 8px 20px;">${order.status}</span>`;
+    
+    document.getElementById('detail-client-name').textContent = order.client;
+    document.getElementById('detail-order-date').textContent = order.date;
+
+    const itemsList = document.getElementById('detail-items-list');
+    itemsList.innerHTML = '';
+    
+    let totalValue = 0;
+    order.items.forEach(item => {
+        const subtotal = (item.price || 0) * (item.qtd || 1);
+        totalValue += subtotal;
+        
+        const itemEl = document.createElement('div');
+        itemEl.className = 'detail-item-row';
+        itemEl.innerHTML = `
+            <div class="detail-item-info">
+                <span class="detail-item-name">${item.name}</span>
+                <span class="detail-item-qty">Quantidade: ${item.qtd}</span>
+            </div>
+            <span class="detail-item-price">R$ ${(item.price || 0).toFixed(2).replace('.', ',')}</span>
+        `;
+        itemsList.appendChild(itemEl);
+    });
+
+    document.getElementById('detail-order-total').textContent = `R$ ${totalValue.toFixed(2).replace('.', ',')}`;
+
+    const payMethod = order.paymentMethod || 'PIX';
+    const installments = order.installments || 1;
+    document.getElementById('detail-payment-method').textContent = payMethod === 'PIX' ? 'PIX' : `Cartão de Crédito (${installments}x)`;
+
+    const actionsContainer = document.getElementById('detail-actions');
+    actionsContainer.innerHTML = '';
+
+    if (order.status === 'Em Separação') {
+        actionsContainer.innerHTML += `
+            <button onclick="goToEmployeeSeparation()" class="primary-btn detail-action-btn" style="background: #6366F1;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Separar Pedido
+            </button>
+        `;
+    }
+
+    if (order.status !== 'Finalizado' && order.status !== 'Cancelado') {
+        actionsContainer.innerHTML += `
+            <button onclick="goToEmployeeUpdateStatus()" class="secondary-btn detail-action-btn" style="background: #374151; color: #F3F4F6; border: 1px solid #4B5563;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                Atualizar Status
+            </button>
+        `;
+    }
+
+    if (order.status === 'Pronto para Retirada') {
+        actionsContainer.innerHTML += `
+            <button onclick="goToEmployeePickup()" class="primary-btn detail-action-btn" style="background: #10B981;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Confirmar Retirada
+            </button>
+        `;
+    }
+
+    navigateTo('screen-employee-order-detail');
+}
+
+function goToEmployeeSeparation() {
+    const order = employeeOrders.find(o => o.id === currentSelectedOrderId);
+    if (!order) return;
+
+    if (order.status !== 'Em Separação') {
+        if (typeof showModal === "function") {
+            showModal(`Não é possível separar o pedido #${order.id}. Status atual: "${order.status}". O pedido precisa estar em "Em Separação".`);
+        } else {
+            alert(`Não é possível separar o pedido #${order.id}. Status atual: "${order.status}". O pedido precisa estar em "Em Separação".`);
+        }
+        return;
+    }
+
+    document.getElementById('sep-header-id').innerText = '#' + order.id;
+    navigateTo('screen-employee-order-separation');
+    renderEmployeeSeparationItems(order);
+}
+
+function renderEmployeeSeparationItems(order) {
+    const container = document.getElementById('separation-items-list');
+    if (!container) return;
+
+    container.innerHTML = order.items.map(item => `
+        <label class="separation-item" id="sep-card-${item.name.replace(/\s/g, '-')}">
+            <input type="checkbox" class="item-checkbox" onchange="toggleSeparationStyle(this, '${item.name.replace(/\s/g, '-')}')">
+            <div class="item-details">
+                <span class="item-name">${item.name}</span>
+                <span class="item-qtd">Qtd: ${item.qtd}</span>
+            </div>
+        </label>
+    `).join('');
+}
+
+function finishEmployeeSeparation() {
+    const order = employeeOrders.find(o => o.id === currentSelectedOrderId);
+    if (!order) return;
+
+    if (order.status !== 'Em Separação') {
+        if (typeof showModal === "function") {
+            showModal(`Não é possível concluir a separação do pedido #${order.id}. Status atual: "${order.status}".`);
+        } else {
+            alert(`Não é possível concluir a separação do pedido #${order.id}. Status atual: "${order.status}".`);
+        }
+        return;
+    }
+
+    const checkboxes = document.querySelectorAll('.item-checkbox');
+    if (!checkboxes || checkboxes.length === 0) {
+        if (typeof showModal === "function") {
+            showModal('Nenhum item encontrado para conferência. Volte e marque os itens antes de concluir.');
+        } else {
+            alert('Nenhum item encontrado para conferência. Volte e marque os itens antes de concluir.');
+        }
+        return;
+    }
+
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked === true);
+
+    if (!allChecked) {
+        if (typeof showModal === "function") {
+            showModal('Não foi possível concluir: verifique se TODOS os itens estão marcados como conferidos.');
+        } else {
+            alert('Não foi possível concluir: verifique se TODOS os itens estão marcados como conferidos.');
+        }
+        return;
+    }
+
+    order.status = 'Pronto para Retirada';
+
+    const modal = document.getElementById('order-success-modal');
+    const msgEl = document.getElementById('order-success-message');
+    if (modal && msgEl) {
+        msgEl.textContent = `Pedido #${currentSelectedOrderId} separado com sucesso! Status alterado para "Pronto para Retirada".`;
+        window._employeeModalPending = true;
+        modal.classList.add('active-modal');
+    } else {
+        renderEmployeeOrders();
+        navigateTo('screen-employee-orders');
+    }
+}
+
+function finishSeparation() {
+    finishEmployeeSeparation();
+}
+
+function goToEmployeeUpdateStatus() {
+    const order = employeeOrders.find(o => o.id === currentSelectedOrderId);
+    if (!order) return;
+
+    document.getElementById('emp-status-header-id').innerText = '#' + order.id;
+    document.getElementById('emp-status-observation').value = '';
+    
+    document.querySelectorAll('input[name="emp_order_status"]').forEach(r => r.checked = false);
+
+    navigateTo('screen-employee-order-status');
+}
+
+function saveEmployeeOrderStatus() {
+    const selectedStatus = document.querySelector('input[name="emp_order_status"]:checked');
+    if (!selectedStatus) {
+        if (typeof showModal === "function") {
+            showModal("Por favor, selecione um status antes de salvar.");
+        } else {
+            alert("Por favor, selecione um status.");
+        }
+        return;
+    }
+    
+    const order = employeeOrders.find(o => o.id === currentSelectedOrderId);
+    if (!order) return;
+    
+    if (order.status === selectedStatus.value) {
+        if (typeof showModal === "function") {
+            showModal(`O pedido #${currentSelectedOrderId} já está com o status "${selectedStatus.value}". Selecione um status diferente para atualizar.`);
+        } else {
+            alert(`O pedido #${currentSelectedOrderId} já está com o status "${selectedStatus.value}".`);
+        }
+        return;
+    }
+    
+    order.status = selectedStatus.value;
+    
+    const modal = document.getElementById('order-success-modal');
+    const msgEl = document.getElementById('order-success-message');
+    if (modal && msgEl) {
+        msgEl.textContent = `Status do pedido #${currentSelectedOrderId} alterado para "${selectedStatus.value}" com sucesso!`;
+        window._employeeModalPending = true;
+        modal.classList.add('active-modal');
+    } else {
+        renderEmployeeOrders();
+        navigateTo('screen-employee-orders');
+    }
+}
+
+
+function saveOrderStatus() {
+    saveEmployeeOrderStatus();
+}
+
+function goToEmployeePickup() {
+    const order = employeeOrders.find(o => o.id === currentSelectedOrderId);
+    if (!order) return;
+
+    
+    if (order.status !== 'Pronto para Retirada') {
+        showModal('Este pedido ainda não está pronto para retirada.');
+        return;
+    }
+
+    document.getElementById('pickup-header-id').innerText = '#' + order.id;
+    document.getElementById('pickup-client-name').textContent = order.client;
+    document.getElementById('pickup-order-id-text').textContent = '#' + order.id;
+
+    const itemsList = document.getElementById('pickup-items-list');
+    itemsList.innerHTML = '';
+    
+    order.items.forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'detail-item-row';
+        itemEl.innerHTML = `
+            <div class="detail-item-info">
+                <span class="detail-item-name">${item.name}</span>
+                <span class="detail-item-qty">Qtd: ${item.qtd}</span>
+            </div>
+            <span class="detail-item-price">R$ ${(item.price || 0).toFixed(2).replace('.', ',')}</span>
+        `;
+        itemsList.appendChild(itemEl);
+    });
+
+    navigateTo('screen-employee-order-pickup');
+}
+
+function confirmPickup() {
+    const order = employeeOrders.find(o => o.id === currentSelectedOrderId);
+    if (order) {
+        order.status = 'Finalizado';
+    }
+    
+    const modal = document.getElementById('order-success-modal');
+    const msgEl = document.getElementById('order-success-message');
+    if (modal && msgEl) {
+        msgEl.textContent = `Retirada do pedido #${currentSelectedOrderId} confirmada com sucesso! Pedido finalizado.`;
+        window._employeeModalPending = true;
+        modal.classList.add('active-modal');
+    } else {
+        renderEmployeeOrders();
+        navigateTo('screen-employee-orders');
+    }
 }

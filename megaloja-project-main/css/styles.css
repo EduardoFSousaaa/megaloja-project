@@ -1,4 +1,3 @@
-/* --- Configurações Globais (Reset) --- */
 * {
     margin: 0;
     padding: 0;
@@ -7,8 +6,8 @@
 }
 
 body {
-    background-color: #111827; /* Fundo Dark */
-    color: #F3F4F6;            /* Texto Claro */
+    background-color: #111827; 
+    color: #F3F4F6;            
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,7 +16,6 @@ body {
     overflow-x: hidden;
 }
 
-/* --- Container Principal --- */
 #app-container {
     width: 100%;
     max-width: 100vw;
@@ -32,12 +30,11 @@ body {
     transition: margin-left 0.2s ease, width 0.2s ease;
 }
 
-/* --- Controle das Telas (SPA) --- */
 .screen-section {
     display: none;
     width: 100%;
     padding: 15px;
-    padding-bottom: 95px !important; /* Segurança para o bottom-nav no mobile */
+    padding-bottom: 95px !important; 
     box-sizing: border-box;
     animation: fadeIn 0.4s ease-in-out;
 }
@@ -56,7 +53,6 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Botões Base --- */
 .primary-btn {
     background-color: #6366F1;
     color: white;
@@ -76,9 +72,7 @@ body {
     background-color: #4F46E5;
 }
 
-/* =========================================
-   ESTILOS DA TELA DE LOGIN / AUTENTICAÇÃO
-   ========================================= */
+
 .login-container {
     display: flex;
     flex-direction: column;
@@ -238,9 +232,6 @@ body {
     justify-content: center;
 }
 
-/* =========================================
-   ESTILOS DA TELA 2: ESCOLHER LOJA 
-   ========================================= */
 .stores-container {
     width: 100%;
     max-width: 1000px; 
@@ -261,18 +252,10 @@ body {
     text-align: center;
 }
 
-/* --- AJUSTE DA BARRA DE PESQUISA EXPANDIDA --- */
-/* --- BARRA DE PESQUISA EXPANDIDA COM LUPA --- */
-/* ===================================================
-   COMPONENTE DE BUSCA UNIVERSAL (PADRÃO PARA TODO O APP)
-   =================================================== */
-/* ===================================================
-   COMPONENTE DE BUSCA UNIVERSAL (PADRÃO ALINHADO 100%)
-   =================================================== */
 .search-container-universal {
     position: relative;
     display: flex;
-    align-items: center; /* ALINHAMENTO VERTICAL PERFEITO DA LUPA */
+    align-items: center; 
     width: 100% !important;
     max-width: 100% !important;
     margin-bottom: 25px;
@@ -283,7 +266,7 @@ body {
     width: 100%;
     height: 48px;
     box-sizing: border-box;
-    padding: 12px 16px 12px 48px; /* Abre espaço na esquerda para a lupa */
+    padding: 12px 16px 12px 48px; 
     background-color: #1F2937;
     border: 1px solid #374151;
     border-radius: 10px;
@@ -293,30 +276,27 @@ body {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* Ícone posicionado milimetricamente no centro vertical da barra */
 .search-icon-universal {
     position: absolute;
     left: 16px;
     top: 50%;
-    transform: translateY(-50%); /* Trava o ícone no meio exato da altura */
+    transform: translateY(-50%); 
     pointer-events: none;
     color: #9CA3AF;
     display: block;
 }
 
-/* Placeholder discreto */
 .search-input-universal::placeholder {
     color: #6B7280;
 }
 
-/* Efeito luminoso e mudança de fundo ao clicar na barra */
 .search-input-universal:focus {
     border-color: #6366F1;
-    background-color: #111827; /* Escurece sutilmente o fundo */
+    background-color: #111827; 
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
-/* A lupa muda de cor para acompanhar o foco da digitação */
+
 .search-input-universal:focus + .search-icon-universal {
     color: #6366F1;
 }
@@ -327,8 +307,8 @@ body {
     height: 48px;
     box-sizing: border-box;
     padding: 12px 16px 12px 48px;
-    background-color: #1F2937 !important; /* Fundo escuro padrão */
-    border: 1px solid #374151 !important; /* A borda cinza escura idêntica à do cliente */
+    background-color: #1F2937 !important; 
+    border: 1px solid #374151 !important; 
     border-radius: 10px;
     color: #F3F4F6;
     font-size: 15px;
@@ -338,19 +318,18 @@ body {
 
 .search-input-universal:focus,
 .stock-search-input:focus {
-    border-color: #6366F1 !important; /* Borda roxa ao clicar */
-    background-color: #111827 !important; /* Fundo escurece sutilmente */
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important; /* O contorno luminoso */
+    border-color: #6366F1 !important; 
+    background-color: #111827 !important; 
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important; 
     outline: none !important;
 }
 
-/* Garante o efeito de cor na lupinha do estoque também */
 .search-container-universal:focus-within .search-icon-universal {
     color: #6366F1 !important;
    outline: none;
 }
 
-/* Transição suave para a animação não ser seca */
+
 .stock-search-input {
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease !important;
 }
@@ -397,9 +376,6 @@ body {
 .store-distance { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #818CF8; margin-top: 4px; }
 .select-store-btn { margin-top: 0; width: 100%; max-width: none; }
 
-/* =========================================
-   ESTILOS DA TELA 6: PERFIL
-   ========================================= */
 .profile-container {
     width: 100%;
     max-width: 480px; 
@@ -512,9 +488,608 @@ body {
 
 .logout-btn:hover { background-color: rgba(239, 68, 68, 0.1); }
 
-/* =========================================
-   MENU HÍBRIDO: MOBILE (BOTTOM NAVIGATION)
-   ========================================= */
+.profile-form,
+.security-form,
+.billing-address-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.security-header-card .welcome-title,
+.billing-header-card .welcome-title {
+    margin-bottom: 6px;
+    font-size: 20px;
+}
+
+.security-header-card .welcome-subtitle,
+.billing-header-card .welcome-subtitle {
+    margin-bottom: 0;
+    max-width: 420px;
+}
+
+.security-icon-box {
+    width: 84px;
+    height: 84px;
+    margin-bottom: 14px;
+    border-radius: 16px;
+}
+
+.form-feedback {
+    min-height: 18px;
+    color: #9CA3AF;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.form-feedback.error {
+    color: #F87171;
+}
+
+.form-feedback.success {
+    color: #34D399;
+}
+
+.input-group.input-error {
+    border-color: #EF4444;
+    background-color: rgba(239, 68, 68, 0.08);
+}
+
+.input-group.input-success {
+    border-color: #10B981;
+    background-color: rgba(16, 185, 129, 0.08);
+}
+
+.password-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin-left: 10px;
+    border-radius: 8px;
+    color: #9CA3AF;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.password-toggle:hover {
+    background: #374151;
+    color: #F9FAFB;
+}
+
+.profile-submit-btn,
+.profile-secondary-btn {
+    width: 100%;
+    max-width: none;
+    min-height: 48px;
+    margin-top: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-secondary-btn {
+    background: #374151;
+    border: 1px solid #4B5563;
+    color: #F3F4F6;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+.profile-secondary-btn:hover {
+    background: #4B5563;
+    border-color: #6B7280;
+}
+
+.profile-secondary-btn:active {
+    transform: scale(0.99);
+}
+
+.billing-container {
+    max-width: 740px;
+}
+
+.billing-header-card {
+    align-items: flex-start;
+    text-align: left;
+}
+
+.billing-header-card .welcome-title,
+.billing-header-card .welcome-subtitle {
+    text-align: left;
+}
+
+.profile-mini-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin-bottom: 10px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.12);
+    color: #34D399;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.billing-shell {
+    gap: 18px;
+}
+
+.billing-list-panel,
+.billing-form-panel {
+    width: 100%;
+}
+
+.billing-form-panel {
+    border-top: 1px solid #374151;
+    padding-top: 16px;
+}
+
+.billing-list-panel .profile-card-title,
+.billing-form-panel .profile-card-title {
+    margin-bottom: 12px;
+}
+
+.billing-addresses-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.billing-empty-state,
+.billing-address-card {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 14px;
+}
+
+.billing-empty-state {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #9CA3AF;
+    font-size: 13px;
+}
+
+.billing-empty-state strong {
+    color: #F9FAFB;
+    font-size: 14px;
+}
+
+.billing-address-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.billing-address-main {
+    min-width: 0;
+}
+
+.billing-address-topline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.billing-address-topline strong {
+    color: #F9FAFB;
+    font-size: 15px;
+}
+
+.billing-address-topline span {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(99, 102, 241, 0.16);
+    color: #A5B4FC;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.billing-address-main p {
+    margin: 0;
+    color: #9CA3AF;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.billing-address-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.billing-address-actions button {
+    min-height: 34px;
+    padding: 0 12px;
+    border: 1px solid #4B5563;
+    border-radius: 8px;
+    background: #1F2937;
+    color: #F3F4F6;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.billing-address-actions button:hover {
+    background: #374151;
+    border-color: #6B7280;
+}
+
+.billing-address-actions .danger {
+    color: #FCA5A5;
+    border-color: rgba(239, 68, 68, 0.55);
+}
+
+.billing-address-actions .danger:hover {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: #EF4444;
+}
+
+.billing-input-row {
+    display: flex;
+    gap: 12px;
+}
+
+.billing-half {
+    flex: 1;
+    min-width: 0;
+}
+
+#billing-state {
+    text-transform: uppercase;
+}
+
+#billing-cancel-btn {
+    display: none;
+}
+
+.billing-delete-modal-content {
+    text-align: center;
+    max-width: 380px;
+}
+
+.billing-delete-modal-icon {
+    background-color: rgba(239, 68, 68, 0.12);
+}
+
+.modal-actions-row {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.modal-btn-secondary,
+.modal-btn-danger {
+    flex: 1;
+    min-height: 46px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+.modal-btn-secondary {
+    background: #374151;
+    border: 1px solid #4B5563;
+    color: #F3F4F6;
+}
+
+.modal-btn-secondary:hover {
+    background: #4B5563;
+    border-color: #6B7280;
+}
+
+.modal-btn-danger {
+    background: #EF4444;
+    border: 1px solid #EF4444;
+    color: #FFFFFF;
+}
+
+.modal-btn-danger:hover {
+    background: #DC2626;
+    border-color: #DC2626;
+}
+
+.modal-btn-secondary:active,
+.modal-btn-danger:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 560px) {
+    .billing-input-row,
+    .billing-address-card,
+    .billing-address-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .billing-address-actions button {
+        width: 100%;
+    }
+
+    .modal-actions-row {
+        flex-direction: column-reverse;
+    }
+
+    /* ===== Checkout ("Meu pedido" no fluxo do carrinho) - responsivo no mobile ===== */
+    #screen-checkout.active-screen {
+        padding-bottom: 100px !important; /* espaço pro navbar fixo */
+        align-items: center;
+    }
+
+    #screen-checkout .checkout-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    #screen-checkout .checkout-section {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 14px;
+    }
+
+    #screen-checkout .checkout-subtitle {
+        font-size: 1.0rem;
+        margin-bottom: 12px;
+    }
+
+    #checkout-items-list,
+    #screen-checkout #checkout-items-list,
+    .checkout-items-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Cartões de item do checkout */
+    #screen-checkout .checkout-item-card {
+        width: 100%;
+        padding: 12px 0;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    /* Total do pedido: empilhar bem em telas pequenas */
+    #screen-checkout .checkout-total-box {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 10px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+    }
+
+    #screen-checkout .checkout-total-box > span {
+        font-size: 1.0rem;
+    }
+
+    #screen-checkout #checkout-total-value {
+        font-size: 1.25rem;
+        white-space: normal;
+    }
+
+    #screen-checkout #checkout-installment-info {
+        font-size: 0.9rem;
+    }
+
+    /* Pagamento: cartões em coluna no mobile */
+    #screen-checkout .payment-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Botão confirmar: altura e margem confortáveis */
+    #screen-checkout .primary-btn.confirm-order-btn,
+    #screen-checkout .confirm-order-btn {
+        max-width: 100%;
+        margin-top: 16px;
+        padding: 14px 16px;
+        font-size: 1.05rem;
+        height: auto;
+    }
+
+    /* textarea/inputs do checkout */
+    #screen-checkout .checkout-textarea {
+        font-size: 0.98rem;
+    }
+
+    /* Ajustes adicionais (mobile): evitar overflow horizontal */
+    #screen-checkout {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Não “forçar” max-width em TODO (*), para reduzir risco de efeito colateral */
+    #screen-checkout .checkout-container,
+    #screen-checkout .checkout-section,
+    #screen-checkout .checkout-items-list,
+    #screen-checkout .checkout-item-card,
+    #screen-checkout .checkout-total-box,
+    #screen-checkout .payment-methods,
+    #screen-checkout .payment-card,
+    #screen-checkout .checkout-textarea,
+    #screen-checkout .confirm-order-btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* ===== Telas ainda menores (ex.: iPhone) - reforço responsivo do checkout ===== */
+@media (max-width: 420px) {
+    /* checkout “Meu pedido” no fluxo carrinho->pedido */
+    #screen-checkout,
+    #screen-checkout.active-screen {
+        width: 100%;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+
+    #screen-checkout .checkout-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    #screen-checkout .checkout-section {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        box-sizing: border-box;
+    }
+
+    #screen-checkout .checkout-subtitle {
+        font-size: 0.98rem;
+        margin-bottom: 10px;
+    }
+
+    #screen-checkout .checkout-item-card {
+        padding: 10px 0;
+        gap: 10px;
+        align-items: flex-start;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #screen-checkout .checkout-total-box {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        gap: 8px;
+    }
+
+    #screen-checkout #checkout-total-value {
+        font-size: 1.15rem;
+        white-space: normal;
+    }
+
+    #screen-checkout #checkout-installment-info {
+        font-size: 0.85rem;
+    }
+
+    #screen-checkout .payment-methods {
+        gap: 8px;
+    }
+
+    #screen-checkout .primary-btn.confirm-order-btn,
+    #screen-checkout .confirm-order-btn {
+        padding: 12px 14px;
+        font-size: 1.02rem;
+        margin-top: 14px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    #screen-checkout .checkout-textarea {
+        font-size: 0.95rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* === TEXTO COMPLETO + BOTÕES (+/-) ABAIXO DO REMOVER (CARRINHO) ===
+       O carrinho (#screen-cart) renderiza via JS com estilos inline, porém o layout
+       pode ser reorganizado via CSS no mobile usando display/ordem.
+    */
+    #screen-cart .cart-item-checkbox,
+    #screen-cart .remove-item-btn,
+    #screen-cart .qty-btn {
+        box-sizing: border-box;
+    }
+
+    /* força o card do item do carrinho a virar coluna no mobile */
+    #screen-cart #cart-items-list > div {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+    }
+
+    /* bloco principal (texto + checkbox) vai para o topo */
+    #screen-cart #cart-items-list > div > div:first-child {
+        width: 100% !important;
+        min-width: 0 !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+
+    /* remove o corte/ellipsis do título no carrinho (para aparecer por completo) */
+    #screen-cart #cart-items-list h3 {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        display: block !important;
+        width: 100% !important;
+    }
+
+    /* seção de botões (qty +/- + remover) vai para coluna */
+    #screen-cart #cart-items-list > div > div:last-child {
+        width: 100% !important;
+        justify-content: flex-start !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+
+    /* remover em cima e qty +/- abaixo (o que você pediu) */
+    #screen-cart #cart-items-list .remove-item-btn {
+        width: 100% !important;
+        text-align: center !important;
+        order: 1 !important;
+    }
+
+    #screen-cart #cart-items-list .qty-btn {
+        order: 2 !important;
+    }
+
+    /* agrupamento dos +/-: vira linha centrada e fica abaixo do remover */
+    #screen-cart #cart-items-list > div > div:last-child > div {
+        width: 100% !important;
+        justify-content: center !important;
+        order: 2 !important;
+    }
+
+    /* evita overflow no trecho de “Retirada: Loja ...” */
+    #screen-cart #cart-items-list p {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+    }
+
+    /* === TEXTO COMPLETO NO CHECKOUT (resumo “Meu pedido”) ===
+       renderCheckoutSummary usa inline styles e não tem classes no título/quantidade.
+       Para prevenir corte, aplicamos em todo o container do checkout.
+    */
+    #screen-checkout #checkout-items-list span,
+    #screen-checkout #checkout-items-list div,
+    #screen-checkout #checkout-items-list p {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+    }
+}
+
 .app-navbar {
     position: fixed;
     bottom: 0;
@@ -558,9 +1133,6 @@ body {
 .icon-wrapper { position: relative; display: inline-flex; }
 .menu-badge { position: absolute; top: 1px; right: 1px; width: 8px; height: 8px; background-color: #EF4444; border-radius: 50%; }
 
-/* =========================================
-   MEDIA QUERY: REGRAS PREMIUM PARA DESKTOP
-   ========================================= */
 @media (min-width: 768px) {
     body {
         flex-direction: row;
@@ -569,13 +1141,12 @@ body {
     }
 
     #app-container {
-        margin-left: 240px; /* ABRE espaço para a barra lateral física fixa */
+        margin-left: 240px; 
         width: calc(100vw - 240px);
         max-width: 1200px;
         padding: 40px;
     }
 
-    /* Trava de segurança para as telas de login continuarem centralizadas sem menu */
     body:has(#screen-login.active-screen) #app-container,
     body:has(#screen-employee-login.active-screen) #app-container,
     body:has(#screen-register.active-screen) #app-container,
@@ -604,7 +1175,7 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* Transformação definitiva em Sidebar Dashboard */
+    
     .app-navbar {
         top: 0;
         bottom: auto;
@@ -626,10 +1197,10 @@ body {
     }
 
     .menu-logo { 
-        max-width: 100%; /* Garante que a logo ocupa o espaço máximo sem transbordar */
+        max-width: 100%; 
         height: auto; 
         display: block; 
-        margin: 0 auto; /* Esta é a magia que força a centralização absoluta */
+        margin: 0 auto; 
     }
     .menu-links { flex-direction: column; gap: 16px; max-width: none; }
 
@@ -652,28 +1223,20 @@ body {
         grid-template-columns: 1fr 1fr;
         gap: 16px;
     }
-    /* --- AJUSTE FINAL DO CARRINHO NO COMPUTADOR --- */
-
-/* 1. Amarra a posição do botão às suas divs centrais em vez de à tela inteira */
     .stores-container,
     .stock-container {
         position: relative;
     }
-
     .top-cart-btn {
-        left: auto; /* Remove aquele cálculo antigo */
-        right: 0; /* Alinha cirurgicamente à direita da sua div central */
-        width: 56px; /* Aumenta o tamanho do botão */
+        left: auto; 
+        right: 0; 
+        width: 56px; 
         height: 56px; 
     }
-    
-    /* Aumenta o ícone do carrinho proporcionalmente */
     .top-cart-btn svg {
         width: 26px; 
         height: 26px;
     }
-
-    /* Ajusta a bolinha vermelha para o novo tamanho do botão */
     .cart-badge {
         width: 22px; 
         height: 22px;
@@ -683,12 +1246,11 @@ body {
     }
 }
 
-/* --- Caixa do Ícone de Sucesso (Verde) --- */
 .success-icon-box {
     width: 120px;
     height: 120px;
-    background-color: #065F46; /* Verde escuro de fundo */
-    color: #34D399;            /* Verde claro/neon para o ícone */
+    background-color: #065F46; 
+    color: #34D399;            
     display: flex;
     justify-content: center;
     align-items: center;
@@ -696,9 +1258,8 @@ body {
     margin-bottom: 30px;
 }
 
-/* --- Ajuste do link/botão "Voltar para o login" na recuperação de senha --- */
 #screen-forgot-password .employee-toggle a {
-    color: #818CF8; /* Mantém o padrão roxo/azul dos links do formulário */
+    color: #818CF8; 
     font-weight: 600;
 }
 
@@ -707,11 +1268,10 @@ body {
     text-decoration: underline;
 }
 
-/* --- Espaçamento dos Indicadores das Lojas (Mantendo Total Responsividade) --- */
 .store-info {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Adiciona um espaço fixo vertical saudável entre cada elemento do topo da loja */
+    gap: 10px; 
 }
 
 .store-badge {
@@ -720,12 +1280,9 @@ body {
     padding: 4px 10px;
     border-radius: 6px;
     width: fit-content;
-    margin-bottom: 4px; /* Margem extra de segurança abaixo do badge */
+    margin-bottom: 4px; 
 }
 
-/* ========================================= 
-   MODAL DE ERRO - POP-UP PERSONALIZADO
-   ========================================= */
 .error-modal {
     display: none;
     position: fixed;
@@ -823,7 +1380,7 @@ body {
     transform: scale(0.98);
 }
 
-/* --- Restaura o Botão Voltar Original da Tela de Lojas --- */
+
 .back-btn-container {
     width: 100%;
     margin-bottom: 25px;
@@ -835,9 +1392,9 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background-color: #1F2937; /* Fundo cinza escuro */
-    border: 2px solid #374151;  /* Borda sutil */
-    color: #F9FAFB;            /* Texto claro */
+    background-color: #1F2937; 
+    border: 2px solid #374151;  
+    color: #F9FAFB;            
     padding: 10px 20px;
     border-radius: 8px;
     font-size: 14px;
@@ -847,24 +1404,16 @@ body {
 }
 
 .back-btn-container a:hover {
-    background-color: #374151; /* Efeito de hover original */
+    background-color: #374151; 
     border-color: #4B5563;
-    text-decoration: none;     /* Sem sublinhado de link comum */
+    text-decoration: none;     
 }
 
 .back-btn-container svg {
-    color: #9CA3AF;            /* Cor do ícone idêntica ao que era */
+    color: #9CA3AF;            
 }
 
-/* --- Ajuste de Margens e Compactação do Perfil para Desktop --- */
-/* --- Centralização Absoluta do Perfil (Horizontal e Vertical) para Desktop --- */
-/* --- Centralização Absoluta do Perfil Isolada (Apenas quando Ativo) --- */
-/* --- Centralização Perfeita do Perfil Considerando o Menu (Desktop) --- */
-/* --- Centralização do Perfil Sem Barra de Rolagem (Desktop) --- */
-/* --- Centralização do Perfil Bloqueada Apenas para Quando Estiver Ativo (Desktop) --- */
 @media (min-width: 768px) {
-    
-    /* A mágica da centralização continua IGUAL, mas agora só roda se a tela estiver ativa (.active-screen) */
     #screen-profile-placeholder.active-screen {
         display: flex !important;
         height: 100% !important;  
@@ -873,8 +1422,6 @@ body {
         box-sizing: border-box;
         overflow: hidden !important; 
     }
-
-    /* Centralização matemática por margem automática preservada */
     #screen-profile-placeholder.active-screen .profile-container {
         margin: auto !important; 
         width: 100%;
@@ -883,30 +1430,61 @@ body {
         max-height: 95vh; 
         overflow-y: auto; 
     }
-
-    /* Todo o visual compacto foi mantido sem alterações */
     #screen-profile-placeholder.active-screen .profile-header-card {
         padding: 16px 24px;
     }
-
     #screen-profile-placeholder.active-screen .profile-avatar {
         width: 70px;
         height: 70px;
         font-size: 24px;
         margin-bottom: 8px;
     }
-
     #screen-profile-placeholder.active-screen .profile-section-card {
         padding: 16px;
         gap: 10px;
     }
-
     #screen-profile-placeholder.active-screen .profile-action-row {
         padding: 10px 14px;
     }
+
+    /* IMPORTANTE:
+       Tornar a página de "Alterar Senha" estática no desktop,
+       sem permitir arrastar/rolar a tela (igual página de perfil). */
+    #screen-security-change-password.active-screen {
+        display: flex !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box;
+        overflow: hidden !important;
+    }
+
+    #screen-security-change-password.active-screen .profile-container {
+        margin: auto !important;
+        width: 100%;
+        max-width: 520px;
+        gap: 12px;
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+
+    #screen-security-change-password.active-screen .profile-header-card {
+        padding: 16px 24px;
+    }
+
+    #screen-security-change-password.active-screen .profile-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    #screen-security-change-password.active-screen .profile-section-card {
+        padding: 16px;
+        gap: 10px;
+    }
 }
 
-/* --- TELA DE NOTIFICAÇÕES --- */
 .notifications-container {
     width: 100%;
     max-width: 650px;
@@ -922,8 +1500,8 @@ body {
     align-items: center;
     padding-bottom: 12px;
     border-bottom: 1px solid #374151;
-    flex-wrap: wrap; /* Permite que os elementos quebrem a linha em telas pequenas */
-    gap: 12px;       /* Garante um espaçamento mínimo se eles ficarem próximos */
+    flex-wrap: wrap; 
+    gap: 12px;       
 }
 
 .notifications-header h2 {
@@ -958,9 +1536,8 @@ body {
     gap: 12px;
 }
 
-/* Card Base */
 .notification-card {
-    background-color: #1F2937; /* Card escuro padrão */
+    background-color: #1F2937; 
     border: 1px solid #2D3748;
     border-radius: 12px;
     padding: 16px;
@@ -976,7 +1553,6 @@ body {
     border-color: #4B5563;
 }
 
-/* Estado de Não Lida (Destaque Azulado) */
 .notification-card.unread {
     background-color: #242F41;
     border-color: #3B82F6;
@@ -992,7 +1568,6 @@ body {
     border-radius: 50%;
 }
 
-/* Customização dos Círculos de Ícone */
 .notification-icon {
     width: 40px;
     height: 40px;
@@ -1005,20 +1580,19 @@ body {
 
 .notification-icon.status-ready {
     background-color: rgba(16, 185, 129, 0.15);
-    color: #10B981; /* Verde */
+    color: #10B981; 
 }
 
 .notification-icon.status-promo {
     background-color: rgba(245, 158, 11, 0.15);
-    color: #F59E0B; /* Laranja/Amarelo */
+    color: #F59E0B; 
 }
 
 .notification-icon.status-info {
     background-color: rgba(59, 130, 246, 0.15);
-    color: #3B82F6; /* Azul */
+    color: #3B82F6; 
 }
 
-/* Conteúdo de Texto */
 .notification-content {
     flex-grow: 1;
     display: flex;
@@ -1041,7 +1615,6 @@ body {
     font-size: 1rem;
 }
 
-/* Esmaece o título se já foi lido */
 .notification-card:not(.unread) .notification-title {
     color: #9CA3AF;
 }
@@ -1061,7 +1634,7 @@ body {
     color: #9CA3AF;
 }
 
-/* Botões de Ação Internos */
+
 .notification-actions {
     display: flex;
     gap: 10px;
@@ -1097,7 +1670,6 @@ body {
     color: #F3F4F6;
 }
 
-/* Estado Vazio */
 .notifications-empty {
     text-align: center;
     padding: 60px 20px;
@@ -1113,45 +1685,36 @@ body {
     font-size: 1.2rem;
 }
 
-/* --- Ajustes Responsivos (Mobile) --- */
 @media (max-width: 480px) {
-    /* Força o título e o botão a ficarem em linhas separadas */
     .notifications-header {
         flex-direction: column;
-        align-items: flex-start; /* Alinha o título à esquerda */
-        gap: 12px;               /* Dá um espaçamento vertical perfeito entre o texto e o botão */
+        align-items: flex-start; 
+        gap: 12px;               
     }
-
-    /* Faz o botão ocupar toda a largura disponível no celular, facilitando o toque */
     .clear-all-btn {
         width: 100%;
-        justify-content: center; /* Centraliza o ícone e o texto dentro do botão */
-        padding: 8px 12px;       /* Deixa o botão ligeiramente mais alto para o clique do dedo */
+        justify-content: center; 
+        padding: 8px 12px;       
     }
 
-    /* ... mantenha os outros estilos que já estavam aqui dentro ... */
     .notification-title-row {
         flex-direction: column;
         gap: 2px;
     }
-    
     .notification-card {
         padding: 14px;
         gap: 12px;
     }
-    
     .notification-actions {
         flex-direction: column;
         gap: 8px;
     }
-    
     .notif-action-btn {
         width: 100%;
         text-align: center;
     }
 }
 
-/* --- TELA DE CONSULTA DE ESTOQUE --- */
 .stock-container {
     width: 100%;
     max-width: 800px;
@@ -1167,15 +1730,13 @@ body {
     font-weight: 600;
 }
 
-/* Grade de Produtos */
 .products-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Padrão Mobile: Uma única coluna */
+    grid-template-columns: 1fr; 
     gap: 12px;
     margin-bottom: 25px;
 }
 
-/* Card Individual de Produto */
 .product-card {
     background-color: #1F2937;
     border: 1px solid #2D3748;
@@ -1192,7 +1753,6 @@ body {
     border-color: #4B5563;
 }
 
-/* Alinhamento do Ícone + Informações */
 .product-info-left {
     display: flex;
     align-items: center;
@@ -1202,7 +1762,7 @@ body {
 .product-icon-wrapper {
     width: 44px;
     height: 44px;
-    background-color: rgba(59, 130, 246, 0.1); /* Fundo sutil azulado */
+    background-color: rgba(59, 130, 246, 0.1); 
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -1225,25 +1785,24 @@ body {
 .product-price {
     font-size: 0.85rem;
     font-weight: 600;
-    color: #10B981; /* Preço destacado em verde sucesso */
+    color: #10B981; 
 }
 
-/* --- BOTÃO ADICIONAR / ESGOTADO NO ESTOQUE --- */
 .add-product-btn {
-    background-color: #3B82F6; /* Fundo azul suave */
-    color: #FFFFFF; /* Texto azul para combinar */
+    background-color: #3B82F6; 
+    color: #FFFFFF; 
     border: none;
     border-radius: 8px;
     font-size: 13.5px;
     font-weight: 600;
-    width: 105px; /* Tamanho exato e fixo para as duas palavras não bugarem */
+    width: 105px; 
     height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
     cursor: pointer;
-    flex-shrink: 0; /* MÁGICA: Impede que o botão seja esmagado pelo nome do produto */
+    flex-shrink: 0; 
 }
 
 .add-product-btn:hover {
@@ -1254,46 +1813,40 @@ body {
     transform: scale(0.92);
 }
 
-/* --- ESTILIZAÇÃO DO NOVO RODAPÉ DE AÇÕES DO ESTOQUE --- */
-/* --- ALINHAMENTO PERFEITO DOS BOTÕES DE AÇÃO (MOBILE EMPILHADO E DESKTOP LADO A LADO) --- */
 .stock-footer-actions {
     display: flex;
-    flex-direction: column; /* Volta a empilhar um em cima do outro no celular */
-    gap: 15px; /* Espaço na vertical entre os dois botões */
+    flex-direction: column; 
+    gap: 15px; 
     margin-top: 25px;
     width: 100%;
     align-items: center;
 }
 
-/* Força os botões a serem idênticos e ocuparem toda a linha no mobile */
 .stock-footer-actions button {
-    width: 100%; /* Ocupa a largura total da tela no celular */
-    height: 50px !important; /* Altura idêntica e fixa para os dois */
+    width: 100%; 
+    height: 50px !important; 
     margin: 0 !important; 
     padding: 0 15px !important; 
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px; /* O espaço elegante entre o ícone e a palavra */
-    font-size: 1rem; /* Fonte no tamanho original (maior e fácil de ler) */
+    gap: 12px; 
+    font-size: 1rem; 
     font-weight: 600;
     box-sizing: border-box;
 }
 
-/* Ajustes para quando for aberto no Computador ou Tablet grande */
 @media (min-width: 768px) {
     .stock-footer-actions {
-        flex-direction: row; /* Ficam lado a lado no monitor */
+        flex-direction: row; 
         justify-content: center;
     }
-    
     .stock-footer-actions button {
-        flex: 1; /* Dividem a tela ao meio */
-        max-width: 250px; /* Limite para não ficarem gigantes na tela grande */
+        flex: 1; 
+        max-width: 250px; 
     }
 }
 
-/* --- BOTÃO DE REMOVER ITEM DO CARRINHO --- */
 .remove-item-btn {
     background: transparent;
     border: none;
@@ -1312,20 +1865,16 @@ body {
     box-sizing: border-box;
 }
 
-/* Efeito quando passa o rato (Computador) OU quando pressiona o dedo (Telemóvel) */
 .remove-item-btn:hover,
 .remove-item-btn:active {
-    background-color: #EF4444; 
-    color: #FFFFFF; 
+    background-color: #EF4444 !important;
+    color: #FFFFFF !important;
 }
 
-/* Bónus: Efeito de 'clique' que encolhe o botão ligeiramente para dar melhor feedback tátil no telemóvel */
 .remove-item-btn:active {
     transform: scale(0.92);
 }
 
-/* --- BOTÃO FLUTUANTE DE CARRINHO NO TOPO --- */
-/* Certifica que as seções segurem o botão no lugar certo */
 .screen-section {
     position: relative; 
 }
@@ -1334,10 +1883,10 @@ body {
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: #374151; /* Cor de fundo escura (combina com o tema) */
+    background-color: #374151; 
     color: #F3F4F6;
     border: 1px solid #4B5563;
-    border-radius: 50%; /* Círculo perfeito */
+    border-radius: 50%; 
     width: 45px;
     height: 45px;
     display: flex;
@@ -1349,15 +1898,13 @@ body {
     padding: 0;
 }
 
-/* Efeito ao passar o rato ou tocar */
 .top-cart-btn:hover,
 .top-cart-btn:active {
-    background-color: #4F46E5; /* Fica azul/roxo igual aos botões principais */
+    background-color: #4F46E5; 
     border-color: #4F46E5;
     transform: scale(0.92);
 }
 
-/* Bolinha vermelha de notificação de itens */
 .cart-badge {
     position: absolute;
     top: -5px;
@@ -1376,11 +1923,10 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* --- BOLINHA NUMÉRICA DE NOTIFICAÇÕES (MENU) --- */
 .notif-badge {
     position: absolute;
-    top: -2px;     /* Ajuste esses valores de top e right se a bolinha */
-    right: -2px;   /* ficar muito longe ou muito dentro do ícone do sino */
+    top: -2px;     
+    right: -2px;   
     background-color: #EF4444; 
     color: #FFFFFF;
     font-size: 0.70rem;
@@ -1396,14 +1942,9 @@ body {
     z-index: 5;
 }
 
-/* Garante que qualquer botão de menu segure a bolinha no lugar certo */
 .menu-item {
     position: relative;
 }
-
-/* =========================================
-   TELA DE CHECKOUT (REALIZAR PEDIDO)
-========================================= */
 
 .checkout-container {
     max-width: 600px;
@@ -1426,7 +1967,6 @@ body {
     font-weight: 600;
 }
 
-/* --- Resumo dos Itens --- */
 .checkout-item-card {
     display: flex;
     align-items: center;
@@ -1488,7 +2028,7 @@ body {
 }
 
 .delete-item-btn:hover {
-    color: #EF4444; /* Fica vermelho ao passar o rato */
+    color: #EF4444; 
 }
 
 .checkout-total-box {
@@ -1507,7 +2047,7 @@ body {
     color: #10B981;
 }
 
-/* --- Métodos de Pagamento (Cartões Interativos) --- */
+
 .payment-methods {
     display: flex;
     flex-direction: column;
@@ -1519,7 +2059,7 @@ body {
     display: block;
 }
 
-/* Esconde a bolinha padrão do navegador */
+
 .payment-card input[type="radio"] {
     display: none;
 }
@@ -1547,7 +2087,6 @@ body {
     font-size: 1rem;
 }
 
-/* Nova bolinha customizada */
 .radio-indicator {
     width: 22px;
     height: 22px;
@@ -1557,7 +2096,6 @@ body {
     transition: all 0.2s;
 }
 
-/* Estado quando o pagamento é Selecionado */
 .payment-card input[type="radio"]:checked + .payment-card-content {
     border-color: #3B82F6;
     background-color: rgba(59, 130, 246, 0.05);
@@ -1583,7 +2121,6 @@ body {
     border-radius: 50%;
 }
 
-/* --- Observações (Textarea) --- */
 .checkout-textarea {
     width: 100%;
     min-height: 100px;
@@ -1594,7 +2131,7 @@ body {
     color: #F3F4F6;
     font-family: inherit;
     font-size: 1rem;
-    resize: vertical; /* Permite ao usuário aumentar a caixa só para baixo */
+    resize: vertical; 
     outline: none;
     transition: border-color 0.2s;
 }
@@ -1608,10 +2145,10 @@ body {
 }
 
 .confirm-order-btn {
-    display: block; /* Essencial para permitir a centralização */
+    display: block; 
     width: 100%;
-    max-width: 350px; /* Limita a largura para não ficar gigante no PC */
-    margin: 20px auto 0 auto; /* O "auto" nas laterais é o que faz a magia de centralizar */
+    max-width: 350px; 
+    margin: 20px auto 0 auto; 
     padding: 16px;
     font-size: 1.15rem;
     border-radius: 8px;
@@ -1619,17 +2156,27 @@ body {
     transition: all 0.2s;
 }
 
-/* --- Responsividade Desktop --- */
+/* Hoverzinho no botão "Gerar QR Code de Retirada" (combo com azul #6366F1) */
+button[id^="qr-btn-"] {
+    transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+button[id^="qr-btn-"]:hover {
+    background: rgba(99, 102, 241, 0.18) !important;
+    border-color: rgba(99, 102, 241, 1) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12) !important;
+    transform: translateY(-1px);
+}
+
 @media (min-width: 768px) {
     .payment-methods {
-        flex-direction: row; /* Coloca os métodos de pagamento lado a lado */
+        flex-direction: row; 
     }
     .payment-card {
         flex: 1;
     }
 }
 
-/* --- ESTILOS DINÂMICOS DE PAGAMENTO (PIX / CARTÃO) --- */
 .payment-details-box {
     background-color: #111827;
     border: 1px solid #374151;
@@ -1638,7 +2185,6 @@ body {
     animation: fadeIn 0.3s ease;
 }
 
-/* Área do Pix */
 .pix-code-box {
     display: flex;
     align-items: center;
@@ -1651,12 +2197,12 @@ body {
 
 #pix-code-text {
     flex: 1;
-    color: #10B981; /* Verde característico do Pix */
+    color: #10B981; 
     font-family: monospace;
     font-size: 0.85rem;
     word-break: break-all;
     display: -webkit-box;
-    -webkit-lineclamp: 2; /* Limita a 2 linhas para não desconfigurar */
+    -webkit-lineclamp: 2; 
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -1680,7 +2226,7 @@ body {
     transform: scale(0.95);
 }
 
-/* Formulário de Cartão de Crédito (ISOLADO APENAS PARA O CHECKOUT) */
+
 #card-details-container .input-group {
     display: flex;
     flex-direction: column;
@@ -1702,7 +2248,7 @@ body {
     outline: none;
     font-size: 1rem;
     transition: border-color 0.2s;
-    width: 100%; /* Garante que não ultrapassa o limite */
+    width: 100%; 
     box-sizing: border-box;
 }
 
@@ -1731,10 +2277,9 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-left: auto; /* Empurra para a direita */
+    margin-left: auto; 
 }
 
-/* O sinal de til (~) garante que a bolinha acende mesmo estando no fim do HTML */
 .payment-card input[type="radio"]:checked ~ .custom-radio {
     border-color: #6366F1;
 }
@@ -1753,7 +2298,6 @@ body {
     box-shadow: 0 0 12px rgba(99, 102, 241, 0.15);
 }
 
-/* --- CUSTOM SLIDER PARA PARCELAMENTO --- */
 .custom-slider {
     width: 100%;
     height: 6px;
@@ -1776,7 +2320,7 @@ body {
 }
 
 .custom-slider::-webkit-slider-thumb:active {
-    transform: scale(1.15); /* A bolinha dá um "pulinho" ao ser arrastada */
+    transform: scale(1.15); 
 }
 
 .custom-slider::-moz-range-thumb {
@@ -1788,10 +2332,357 @@ body {
     border: none;
 }
 
-/* ==================== ESTILOS DO PAINEL DE STAFF ==================== */
+.emp-order-detail-container {
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+.header-with-back {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.header-with-back h2 {
+    font-size: 1.3rem;
+    color: #F3F4F6;
+    font-weight: 600;
+    margin: 0;
+}
+
+.back-btn {
+    background: #1F2937;
+    border: 1px solid #374151;
+    color: #9CA3AF;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.back-btn:hover {
+    background: #374151;
+    color: #F3F4F6;
+    border-color: #4B5563;
+}
+
+.detail-status-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.detail-section-card {
+    background-color: #1F2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.detail-section-title {
+    font-size: 15px;
+    color: #F9FAFB;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #374151;
+}
+
+.detail-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.detail-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-info-label {
+    color: #9CA3AF;
+    font-size: 14px;
+}
+
+.detail-info-value {
+    color: #F3F4F6;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.detail-info-value.detail-total {
+    color: #10B981;
+    font-size: 1.2rem;
+}
+
+.detail-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.detail-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #111827;
+    border-radius: 8px;
+    border: 1px solid #2D3748;
+}
+
+.detail-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.detail-item-name {
+    color: #F3F4F6;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.detail-item-qty {
+    color: #9CA3AF;
+    font-size: 12px;
+}
+
+.detail-item-price {
+    color: #10B981;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.detail-actions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.detail-action-btn {
+    width: 100% !important;
+    max-width: none !important;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 !important;
+    padding: 0 20px !important;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.detail-action-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.pickup-ready-banner {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    color: #10B981;
+}
+
+.pickup-client-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pickup-client-name {
+    font-size: 1.1rem;
+    color: #F9FAFB;
+    font-weight: 600;
+}
+
+.pickup-client-id {
+    font-size: 13px;
+    color: #9CA3AF;
+}
+
+
+.pickup-confirm-box {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.pickup-warning {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 8px;
+}
+
+
+.items-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.separation-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: #1F2937;
+    border: 1px solid #374151;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.separation-item:hover {
+    border-color: #6366F1;
+    background: #243042;
+}
+
+.separation-item.checked {
+    background: rgba(16, 185, 129, 0.08);
+    border-color: #10B981;
+    opacity: 0.7;
+}
+
+.separation-item.checked .item-name {
+    text-decoration: line-through;
+    color: #6B7280;
+}
+
+.item-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: #10B981;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.separation-item .item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.separation-item .item-name {
+    color: #F3F4F6;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.separation-item .item-qtd {
+    color: #9CA3AF;
+    font-size: 12px;
+}
+
+.status-options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.status-radio-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #1F2937;
+    border: 1px solid #374151;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.status-radio-card:hover {
+    border-color: #6366F1;
+    background: #243042;
+}
+
+.status-radio-card input[type="radio"]:checked + .radio-label {
+    color: #818CF8;
+}
+
+.status-radio-card input[type="radio"]:checked ~ .radio-label {
+    color: #818CF8;
+}
+
+.status-radio-card:has(input[type="radio"]:checked) {
+    border-color: #6366F1;
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.radio-label {
+    color: #F3F4F6;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.observation-box {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.emp-order-detail-container .primary-btn {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.emp-order-detail-container button.primary-btn {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+@media (min-width: 768px) {
+    .detail-actions-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .detail-action-btn {
+        flex: 1;
+        min-width: 200px;
+    }
+}
+
 .emp-orders-container {
     width: 100%;
-    max-width: 1050px; /* Faz o painel expandir perfeitamente no Desktop */
+    max-width: 1050px; 
     margin: 0 auto;
     padding: 10px;
 }
@@ -1799,38 +2690,38 @@ body {
 .emp-orders-list {
     display: flex;
     flex-direction: column;
-    gap: 16px; /* Espaçamento elegante entre os cartões */
+    gap: 16px; 
     width: 100%;
 }
 
 .emp-order-card {
     background-color: #1F2937;
-    border-radius: 12px; /* Cantos mais arredondados e modernos */
-    padding: 20px 24px;  /* Aumenta o tamanho vertical e horizontal no desktop */
+    border-radius: 12px; 
+    padding: 20px 24px;  
     display: flex;
     justify-content: space-between;
     align-items: center;
     border: 1px solid #374151;
     cursor: pointer;
     transition: all 0.25s ease;
-    gap: 30px; /* BARREIRA DE SEGURANÇA: impede o texto de encostar ou atravessar o status */
+    gap: 30px; 
 }
 
 .emp-order-card:hover {
     border-color: #6366F1;
     background-color: #243042;
-    transform: translateY(-2px); /* Efeito sutil de flutuação ao passar o mouse */
+    transform: translateY(-2px); 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 }
 
 .emp-order-info {
     flex: 1;
-    min-width: 0; /* Anti-quebra: força textos muito longos a respeitarem o espaço */
+    min-width: 0; 
 }
 
 .emp-order-info h3 {
     color: #F3F4F6;
-    font-size: 18px; /* Maior destaque ao número do pedido */
+    font-size: 18px; 
     font-weight: 600;
     margin-bottom: 6px;
 }
@@ -1841,7 +2732,7 @@ body {
     margin-bottom: 6px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Se o nome do cliente for gigante, põe '...' automaticamente */
+    text-overflow: ellipsis; 
 }
 
 .emp-order-time {
@@ -1853,19 +2744,18 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
-    flex-shrink: 0; /* IMPEDE TOTALMENTE que a área do status seja esmagada pelo texto */
+    flex-shrink: 0; 
 }
 
-/* Emblemas de Status (Badges) */
 .emp-badge {
     padding: 8px 16px;
-    border-radius: 9999px; /* Formato pílula elegante */
+    border-radius: 9999px; 
     font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
-    min-width: 150px; /* Garante que todos os status fiquem do mesmo tamanho padrão */
+    min-width: 150px; 
     display: inline-block;
 }
 
@@ -1899,7 +2789,6 @@ body {
     border: 1px solid rgba(239, 68, 68, 0.25);
 }
 
-/* ==================== ESTILOS DA TELA DE ESTOQUE ==================== */
 .emp-stock-container {
     width: 100%;
     max-width: 1050px;
@@ -1907,7 +2796,6 @@ body {
     padding: 10px;
 }
 
-/* Área do Topo */
 .stock-header-area {
     display: flex;
     justify-content: space-between;
@@ -1936,7 +2824,7 @@ body {
     background-color: #4F46E5;
 }
 
-/* Grid de Indicadores (KPIs) */
+
 .stock-kpi-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1971,7 +2859,6 @@ body {
 .stock-kpi-card.kpi-warning { border-left: 4px solid #F59E0B; }
 .stock-kpi-card.kpi-danger { border-left: 4px solid #EF4444; }
 
-/* Barra de Filtro e Busca */
 .stock-filter-bar {
     width: 100%;
     margin-bottom: 20px;
@@ -1996,7 +2883,6 @@ body {
     outline: none;
 }
 
-/* Listagem de Linhas de Produto (Estilo Tabela Moderna) */
 .stock-products-list {
     display: flex;
     flex-direction: column;
@@ -2051,7 +2937,6 @@ body {
     font-size: 13px;
 }
 
-/* Lado Direito da Linha */
 .prod-meta-info {
     display: flex;
     align-items: center;
@@ -2081,7 +2966,6 @@ body {
     font-weight: 500;
 }
 
-/* Badges do Estoque */
 .stock-status-badge {
     padding: 5px 12px;
     border-radius: 6px;
@@ -2106,7 +2990,6 @@ body {
     color: #EF4444;
 }
 
-/* Adaptação Responsiva Mobile */
 @media (max-width: 768px) {
     .stock-product-row {
         flex-direction: column;
@@ -2130,7 +3013,6 @@ body {
     }
 }
 
-/* --- Estilos do Formulário do Estoque --- */
 .stock-form-group {
     display: flex;
     flex-direction: column;
@@ -2161,11 +3043,10 @@ body {
     border-color: #6366F1;
 }
 
-/* Botão de remover produto (Lixeira) */
 .stock-delete-btn {
     background: transparent;
     border: none;
-    color: #EF4444; /* Vermelho */
+    color: #EF4444; 
     cursor: pointer;
     padding: 8px;
     display: flex;
@@ -2181,7 +3062,6 @@ body {
     transform: scale(1.1);
 }
 
-/* ==================== ESTILOS DA TELA DE RELATÓRIOS (STAFF) ==================== */
 .reports-container {
     width: 100%;
     max-width: 1050px;
@@ -2189,7 +3069,6 @@ body {
     padding: 10px;
 }
 
-/* KPIs Superiores */
 .reports-kpi-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -2259,7 +3138,6 @@ body {
 .report-trend.positive { color: #10B981; }
 .report-trend.negative { color: #EF4444; }
 
-/* Grid dos Gráficos */
 .reports-charts-row {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -2280,7 +3158,7 @@ body {
     font-weight: 600;
 }
 
-/* Gráfico de Barras Horizontal (Feito com CSS) */
+
 .css-chart {
     display: flex;
     flex-direction: column;
@@ -2311,7 +3189,7 @@ body {
 .bar-fill {
     height: 100%;
     border-radius: 10px;
-    /* Animação que faz a barra encher suavemente quando entra na tela */
+    
     animation: fillBar 1.2s ease-out forwards;
 }
 
@@ -2328,7 +3206,7 @@ body {
     font-weight: 600;
 }
 
-/* Gráfico Circular de Meta (Radical Progress CSS) */
+
 .goal-circle-container {
     display: flex;
     justify-content: center;
@@ -2340,7 +3218,7 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    /* O truque do anel: Pinta 82% com o azul primário e o resto com o cinza escuro */
+    
     background: conic-gradient(#6366F1 82%, #111827 0);
     display: flex;
     flex-direction: column;
@@ -2355,7 +3233,7 @@ body {
     position: absolute;
     width: 120px;
     height: 120px;
-    background-color: #1F2937; /* Cria o buraco central */
+    background-color: #1F2937; 
     border-radius: 50%;
 }
 
@@ -2375,9 +3253,108 @@ body {
     font-weight: 600;
 }
 
-/* Responsividade para o painel não quebrar no celular */
 @media (max-width: 900px) {
     .reports-charts-row {
-        grid-template-columns: 1fr; /* Põe um gráfico debaixo do outro no mobile */
+        grid-template-columns: 1fr; 
     }
 }
+
+@media (max-width: 768px) {
+    .emp-order-card {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 16px !important;
+        padding: 16px !important;
+    }
+
+    .emp-order-card > div:nth-child(1) {
+        display: grid !important;
+        grid-template-columns: 1fr auto !important; 
+        gap: 8px !important;
+        padding-bottom: 16px !important;
+        border-bottom: 1px solid #374151 !important; 
+        width: 100% !important;
+    }
+
+    .emp-order-card > div:nth-child(1) > *:nth-child(1) {
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+        margin: 0 !important;
+        text-align: left !important;
+    }
+    
+    .emp-order-card > div:nth-child(1) > *:nth-child(3) {
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        margin: 0 !important;
+        text-align: right !important;
+    }
+    
+    .emp-order-card > div:nth-child(1) > *:nth-child(2) {
+        grid-column: 1 / span 2 !important;
+        grid-row: 2 !important;
+        margin: 0 !important;
+        text-align: left !important;
+    }
+
+    .emp-order-card > div:nth-child(2) {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        gap: 10px !important;
+    }
+    
+    .emp-order-card > div:nth-child(2) button {
+        width: auto !important;
+        margin: 0 !important;
+        padding: 8px 16px !important;
+        font-size: 14px !important;
+        white-space: nowrap !important;
+    }
+}
+
+#order-action-modal.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+#order-action-modal .modal-actions-vertical { display: flex; flex-direction: column; gap: 12px; }
+#order-action-modal .modal-btn { height: 48px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: 600; border: none; }
+
+.items-list-container { display: flex; flex-direction: column; gap: 12px; }
+.separation-item {
+    display: flex;
+    align-items: center;
+    background: #1F2937;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.separation-item.checked { opacity: 0.6; background: #111827; border-color: #4B5563; }
+.separation-item.checked .item-name { text-decoration: line-through; color: #9CA3AF; }
+.item-checkbox { width: 24px; height: 24px; margin-right: 15px; accent-color: #6366F1; cursor: pointer; }
+.item-details { flex: 1; text-align: left; }
+.item-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; display: block; color: #F3F4F6; }
+.item-qtd { font-size: 13px; color: #9CA3AF; }
+
+.status-options-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.status-radio-card {
+    display: flex;
+    align-items: center;
+    background: #1F2937;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #374151;
+    cursor: pointer;
+    color: #F3F4F6;
+}
+.status-radio-card input[type="radio"] { width: 20px; height: 20px; margin-right: 12px; accent-color: #6366F1; }
