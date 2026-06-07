@@ -1565,13 +1565,20 @@ function updateInstallments() {
 
     const installments = parseInt(slider.value);
     
-    // Calcula o total do carrinho
+    // Calcula o total SOMENTE dos itens selecionados (checkout) ou marcados no carrinho
     let orderTotalValue = 0;
-    if (typeof cart !== 'undefined') {
-        cart.forEach(item => {
-            orderTotalValue += (item.priceValue || 0) * (item.quantity || 1);
-        });
-    }
+    
+    // Prioriza os itens salvos para o checkout (apenas os selecionados pelo usuário)
+    const checkoutItems = Array.isArray(window._checkoutSelectedItems) && window._checkoutSelectedItems.length > 0
+        ? window._checkoutSelectedItems
+        : (Array.isArray(cart) ? cart.filter(item => item && item.checked === true) : []);
+    
+    // Se não houver itens selecionados, usa o carrinho inteiro como fallback
+    const itemsToUse = checkoutItems.length > 0 ? checkoutItems : (Array.isArray(cart) ? cart : []);
+    
+    itemsToUse.forEach(item => {
+        orderTotalValue += (item.priceValue || 0) * (item.quantity || 1);
+    });
 
     // Divide pelo número de parcelas
     const installmentValue = orderTotalValue / installments;
